@@ -1,0 +1,2580 @@
+<!doctype html>
+<html lang="es">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="theme-color" content="#b9e39a">
+  <title>¡Feliz cumple, Pato!</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Caveat:wght@400;500;600;700&display=swap" rel="stylesheet">
+  <style>
+    :root {
+      color-scheme: light;
+      --leaf: #235b3a;
+      --leaf-soft: #4d7653;
+      --lime: #b9e39a;
+      --purple: #765895;
+      --purple-dark: #604879;
+      --purple-edge: #493651;
+      --sun: #ffd82f;
+      --yellow: #ffc247;
+      --orange: #e98334;
+    }
+
+    * { box-sizing: border-box; }
+
+    html { scroll-behavior: smooth; }
+
+    body {
+      min-height: 100vh;
+      margin: 0;
+      overflow-x: hidden;
+      color: var(--leaf);
+      background-color: var(--lime);
+      font-family: "Trebuchet MS", "Segoe UI", sans-serif;
+    }
+
+    main {
+      display: flex;
+      min-height: 100vh;
+      min-height: 100svh;
+      flex-direction: column;
+      align-items: center;
+      padding: clamp(12px, 2vh, 22px) 16px 8px;
+      text-align: center;
+    }
+
+    .eyebrow {
+      margin: 0 0 3px;
+      color: var(--leaf-soft);
+      font-size: 12px;
+      font-weight: 800;
+      letter-spacing: 2px;
+      text-transform: uppercase;
+    }
+
+    h1 {
+      max-width: 760px;
+      margin: 0;
+      font-family: Georgia, "Times New Roman", serif;
+      font-size: clamp(52px, 8vw, 88px);
+      font-weight: 700;
+      line-height: .91;
+    }
+
+    h1 span { display: block; }
+
+    .subtitle {
+      margin: 10px 0 12px;
+      color: var(--leaf-soft);
+      font-size: clamp(15px, 2vw, 19px);
+      font-weight: 600;
+    }
+
+    .cake-scene {
+      position: relative;
+      width: min(620px, 96vw, calc((100svh - 237px) * 1.0588235));
+      aspect-ratio: 540 / 510;
+      flex: 0 0 auto;
+      margin-top: 1px;
+      animation: arrive 700ms cubic-bezier(.2,.8,.2,1) both;
+    }
+
+    .cake-art {
+      display: block;
+      width: 100%;
+      height: 100%;
+      overflow: visible;
+    }
+
+    .cake-scene {
+      padding: 0;
+      border: 0;
+      background: transparent;
+      cursor: pointer;
+    }
+
+    .cake-scene:focus-visible {
+      outline: 3px solid #235b3a;
+      outline-offset: 5px;
+    }
+
+    .cake-fireworks {
+      position: absolute;
+      z-index: 2;
+      inset: 0;
+      overflow: visible;
+      pointer-events: none;
+    }
+
+    .cake-fireworks span {
+      position: absolute;
+      width: 7px;
+      height: 7px;
+      border-radius: 50%;
+      background: var(--sparkle-color);
+      box-shadow: 0 0 9px var(--sparkle-color);
+      animation: cake-firework-burst 900ms cubic-bezier(.16,.72,.28,1) both;
+    }
+
+    .cake-hint {
+      margin: -5px 0 0;
+      color: var(--leaf-soft);
+      font-size: 13px;
+      font-weight: 700;
+    }
+
+    .music-widget {
+      position: fixed;
+      z-index: 20;
+      top: calc(12px + env(safe-area-inset-top));
+      left: 12px;
+      width: min(340px, calc(100vw - 24px));
+      padding: 12px;
+      border: 1px solid rgba(73,54,81,.42);
+      border-radius: 16px;
+      background: rgba(255,255,255,.96);
+      box-shadow: 0 8px 28px rgba(39,49,34,.22);
+      color: var(--leaf);
+      text-align: left;
+      -webkit-backdrop-filter: blur(12px);
+      backdrop-filter: blur(12px);
+    }
+
+    .music-widget-header {
+      display: flex;
+      min-height: 36px;
+      align-items: center;
+      justify-content: space-between;
+      gap: 8px;
+      margin-bottom: 8px;
+    }
+
+    .music-widget-title {
+      margin: 0;
+      font-family: Georgia, "Times New Roman", serif;
+      font-size: 18px;
+      line-height: 1.2;
+    }
+
+    .music-widget-toggle {
+      display: grid;
+      width: 36px;
+      height: 36px;
+      flex: 0 0 auto;
+      place-items: center;
+      border: 1px solid rgba(73,54,81,.35);
+      border-radius: 50%;
+      background: #fff;
+      color: var(--leaf);
+      cursor: pointer;
+      font: inherit;
+      font-size: 20px;
+      font-weight: 700;
+      touch-action: manipulation;
+    }
+
+    .music-widget-toggle:focus-visible,
+    .music-select:focus-visible {
+      outline: 3px solid var(--purple);
+      outline-offset: 2px;
+    }
+
+    .music-widget-content {
+      display: grid;
+      gap: 8px;
+    }
+
+    .music-select-label {
+      color: var(--leaf-soft);
+      font-size: 13px;
+      font-weight: 700;
+    }
+
+    .music-select {
+      width: 100%;
+      min-height: 46px;
+      padding: 8px 34px 8px 10px;
+      border: 1px solid var(--purple-edge);
+      border-radius: 10px;
+      background: #fff;
+      color: var(--leaf);
+      font: inherit;
+      font-size: 16px;
+      font-weight: 700;
+      touch-action: manipulation;
+    }
+
+    .music-player-status {
+      min-height: 18px;
+      margin: 0;
+      color: var(--leaf-soft);
+      font-size: 12px;
+      line-height: 1.4;
+    }
+
+    .music-player-shell {
+      width: 100%;
+      height: 152px;
+      overflow: hidden;
+      border: 0;
+      border-radius: 12px;
+      background: #fff;
+    }
+
+    .music-player-shell[hidden] { display: none; }
+
+    .music-player-shell iframe {
+      display: block;
+      width: 100% !important;
+      height: 152px !important;
+      border: 0;
+      border-radius: 12px;
+    }
+
+    .music-widget.is-collapsed .music-widget-header { margin-bottom: 0; }
+    .music-widget.is-collapsed .music-widget-content { display: none; }
+
+    .icing-text {
+      fill: #ffdc35;
+      stroke: #d3a612;
+      stroke-linejoin: round;
+      stroke-width: 1.5px;
+      paint-order: stroke fill;
+      filter: url(#letter-shadow);
+      font-family: "Trebuchet MS", "Segoe UI", sans-serif;
+      font-size: 29px;
+      font-weight: 900;
+      letter-spacing: 1px;
+    }
+
+    .games-section,
+    .sudoku-section {
+      width: min(900px, 100%);
+      margin-inline: auto;
+    }
+
+    .games-section {
+      margin-top: clamp(32px, 7vh, 68px);
+    }
+
+    .section-title {
+      margin: 0;
+      color: var(--leaf);
+      font-family: Georgia, "Times New Roman", serif;
+      font-size: clamp(30px, 5vw, 42px);
+      line-height: 1.1;
+    }
+
+    .game-launchers {
+      display: grid;
+      width: min(720px, 100%);
+      grid-template-columns: repeat(3, minmax(0, 1fr));
+      gap: 12px;
+      margin: 20px auto 0;
+    }
+
+    .game-launcher {
+      display: flex;
+      min-width: 0;
+      min-height: 154px;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      gap: 8px;
+      padding: 14px 10px;
+      border: 2px solid var(--purple-edge);
+      border-radius: 8px;
+      background: rgba(255,255,255,.28);
+      color: var(--leaf);
+      font: inherit;
+      text-align: center;
+    }
+
+    .game-launcher:not(:disabled) {
+      cursor: pointer;
+      transition: transform 160ms ease, background-color 160ms ease;
+    }
+
+    .game-launcher:not(:disabled):hover {
+      transform: translateY(-3px);
+      background: rgba(255,255,255,.52);
+    }
+
+    .game-launcher:focus-visible,
+    .symbol-option:focus-visible,
+    .sudoku-cell:focus-visible,
+    .game-action:focus-visible,
+    .lasagna-bite:focus-visible,
+    .race-vehicle-choice:focus-visible,
+    .race-answer-input:focus-visible,
+    .race-code-input:focus-visible {
+      outline: 3px solid #235b3a;
+      outline-offset: 3px;
+    }
+
+    .game-art {
+      display: flex;
+      min-height: 44px;
+      align-items: center;
+      justify-content: center;
+      gap: 3px;
+      font-family: "Apple Color Emoji", "Segoe UI Emoji", sans-serif;
+      font-size: 34px;
+      line-height: 1;
+    }
+
+    .game-title {
+      font-size: 14px;
+      font-weight: 800;
+      line-height: 1.25;
+    }
+
+    .game-action {
+      padding: 5px 15px;
+      border-radius: 6px;
+      background: var(--purple-dark);
+      color: #fff;
+      font-size: 13px;
+      font-weight: 800;
+    }
+
+    .game-launcher:disabled {
+      color: #526858;
+      cursor: not-allowed;
+      opacity: .62;
+    }
+
+    .coming-soon {
+      font-size: 12px;
+      font-weight: 700;
+    }
+
+    .letters-section {
+      position: relative;
+      width: min(900px, 100%);
+      margin: clamp(44px, 9vh, 84px) auto 40px;
+      overflow: hidden;
+      padding: 32px clamp(14px, 4vw, 34px) 48px;
+      border: 1px solid #e8aeba;
+      border-radius: 18px;
+      background: linear-gradient(180deg, #f6bfd0 0%, #ffdce5 72%, #fff0f1 100%);
+      box-shadow: 0 14px 30px rgba(113,68,83,.15), inset 0 0 0 5px rgba(255,255,255,.23);
+      scroll-margin-top: 20px;
+    }
+
+    .letters-section::before {
+      position: absolute;
+      z-index: 0;
+      right: -8%;
+      bottom: -35px;
+      left: -8%;
+      height: 115px;
+      border-radius: 50% 50% 0 0 / 45% 45% 0 0;
+      background: radial-gradient(ellipse at 14% 70%, #fff 0 18%, transparent 18.5%),
+        radial-gradient(ellipse at 34% 55%, #fff 0 23%, transparent 23.5%),
+        radial-gradient(ellipse at 55% 72%, #fff 0 20%, transparent 20.5%),
+        radial-gradient(ellipse at 78% 58%, #fff 0 24%, transparent 24.5%),
+        radial-gradient(ellipse at 96% 72%, #fff 0 17%, transparent 17.5%),
+        linear-gradient(#fff, #fff);
+      content: "";
+      pointer-events: none;
+    }
+
+    .letters-intro {
+      position: relative;
+      z-index: 1;
+      max-width: 620px;
+      margin: 10px auto 24px;
+      color: #774758;
+      font-weight: 700;
+      line-height: 1.5;
+    }
+
+    .letter-grid {
+      position: relative;
+      z-index: 1;
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(min(100%, 360px), 1fr));
+      justify-content: center;
+      gap: 22px;
+      padding: 8px 0;
+      perspective: 1000px;
+    }
+
+    .letter-item {
+      width: 100%;
+      min-width: 0;
+      margin-inline: auto;
+      text-align: center;
+    }
+
+    .letter-cover {
+      position: relative;
+      display: flex;
+      width: min(100%, 280px);
+      min-height: 330px;
+      margin-inline: auto;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      gap: 12px;
+      overflow: hidden;
+      padding: 22px 20px;
+      border: 2px solid rgba(255,255,255,.92);
+      border-radius: 12px;
+      background:
+        radial-gradient(ellipse at 15% 74%, #fff 0 9%, transparent 9.5%),
+        radial-gradient(ellipse at 28% 75%, #fff 0 13%, transparent 13.5%),
+        radial-gradient(ellipse at 48% 78%, #fff 0 12%, transparent 12.5%),
+        radial-gradient(ellipse at 71% 75%, #fff 0 15%, transparent 15.5%),
+        radial-gradient(ellipse at 91% 75%, #fff 0 10%, transparent 10.5%),
+        linear-gradient(180deg, #f7bfd0 0%, #ffdce6 72%, #fff 73%);
+      color: #754455;
+      cursor: pointer;
+      font: inherit;
+      box-shadow: 0 12px 22px rgba(113,68,83,.2), inset 0 0 0 5px rgba(255,255,255,.3);
+      transform-origin: center bottom;
+      transition: transform 420ms cubic-bezier(.2,.8,.2,1), box-shadow 420ms ease;
+      -webkit-tap-highlight-color: transparent;
+      touch-action: manipulation;
+    }
+
+    .letter-cover::before {
+      position: absolute;
+      inset: 11px;
+      border: 1px solid rgba(255,255,255,.52);
+      border-radius: 6px;
+      content: "";
+      pointer-events: none;
+    }
+
+    .letter-cover::after {
+      position: absolute;
+      top: 14px;
+      right: 18px;
+      color: rgba(207,105,135,.7);
+      content: "♥";
+      font-size: 19px;
+      pointer-events: none;
+    }
+
+    .letter-cover:focus-visible {
+      outline: 3px solid #235b3a;
+      outline-offset: 4px;
+    }
+
+    .letter-cover:hover {
+      transform: translateY(-3px) rotate(-.5deg);
+      box-shadow: 0 16px 25px rgba(113,68,83,.24), inset 0 0 0 5px rgba(255,255,255,.3);
+    }
+
+    .letter-ornament {
+      color: #d16e8b;
+      font-size: 27px;
+      line-height: 1;
+    }
+
+    .letter-label {
+      max-width: 190px;
+      font-family: Georgia, "Times New Roman", serif;
+      font-size: 22px;
+      font-weight: 700;
+    }
+
+    .letter-envelope {
+      position: relative;
+      display: grid;
+      width: 142px;
+      height: 102px;
+      place-items: center;
+      overflow: hidden;
+      border: 2px solid rgba(255,255,255,.95);
+      border-radius: 5px;
+      background: linear-gradient(145deg, #fff, #fff8f8);
+      box-shadow: 0 6px 12px rgba(113,68,83,.17);
+    }
+
+    .letter-envelope::before,
+    .letter-envelope::after {
+      position: absolute;
+      inset: 0;
+      content: "";
+      pointer-events: none;
+    }
+
+    .letter-envelope::before {
+      background: linear-gradient(145deg, transparent 49%, #fce1e8 50%) bottom left / 50% 100% no-repeat,
+        linear-gradient(215deg, transparent 49%, #f8d2dd 50%) bottom right / 50% 100% no-repeat;
+    }
+
+    .letter-envelope::after {
+      clip-path: polygon(0 0, 100% 0, 50% 58%);
+      background: #fff;
+      border-bottom: 1px solid #f0d3dc;
+      transform-origin: center top;
+      transition: transform 520ms cubic-bezier(.2,.8,.2,1), opacity 250ms ease;
+    }
+
+    .letter-seal {
+      position: relative;
+      z-index: 1;
+      display: grid;
+      width: 30px;
+      height: 30px;
+      place-items: center;
+      border: 1px solid #df7185;
+      border-radius: 50%;
+      background: #ee8496;
+      color: #fff;
+      font-size: 17px;
+      box-shadow: 0 2px 4px rgba(113,68,83,.2);
+      transition: transform 350ms ease, opacity 250ms ease;
+    }
+
+    .letter-cover-hint {
+      color: #815768;
+      font-size: 13px;
+      font-weight: 700;
+    }
+
+    .letter-note {
+      display: grid;
+      grid-template-rows: 0fr;
+      opacity: 0;
+      transform: translateY(-18px) scale(.97);
+      transition: grid-template-rows 620ms cubic-bezier(.2,.8,.2,1), opacity 320ms ease, transform 520ms cubic-bezier(.2,.8,.2,1);
+    }
+
+    .letter-note-inner {
+      min-height: 0;
+      overflow: hidden;
+    }
+
+    .letter-paper {
+      position: relative;
+      margin-top: -5px;
+      overflow: hidden;
+    }
+
+    .letter-image {
+      display: block;
+      width: min(100%, 640px);
+      height: auto;
+      margin-inline: auto;
+      border: 2px solid rgba(255,255,255,.9);
+      border-radius: 4px 4px 10px 10px;
+      box-shadow: 0 10px 18px rgba(113,68,83,.16);
+    }
+
+    .letter-status {
+      min-height: 24px;
+      margin: 10px 0 0;
+      color: #774758;
+      font-size: 13px;
+      font-weight: 700;
+    }
+
+    .letter-item.is-open .letter-cover {
+      transform: translateY(4px) rotateX(-8deg);
+      box-shadow: 0 5px 10px rgba(113,68,83,.14), inset 0 0 0 5px rgba(255,255,255,.3);
+    }
+
+    .letter-item.is-open .letter-envelope::after {
+      opacity: .55;
+      transform: rotateX(180deg);
+    }
+
+    .letter-item.is-open .letter-seal {
+      opacity: .55;
+      transform: scale(.8) translateY(5px);
+    }
+
+    .letter-item.is-open .letter-note {
+      grid-template-rows: 1fr;
+      opacity: 1;
+      transform: translateY(0) scale(1);
+    }
+
+    .letter-item.is-open .letter-cover-hint::after {
+      content: " · abierta";
+    }
+
+    .race-section {
+      width: min(900px, 100%);
+      margin: clamp(44px, 9vh, 84px) auto 0;
+      padding: 30px 0 54px;
+      border-top: 2px solid rgba(35,91,58,.28);
+      scroll-margin-top: 20px;
+    }
+
+    .mahjong-intro { max-width: 650px; margin: 10px auto 20px; color: var(--leaf-soft); font-weight: 700; line-height: 1.5; }
+    .mahjong-hud { display: flex; flex-wrap: wrap; align-items: center; justify-content: center; gap: 8px; margin: 12px auto; }
+    .mahjong-pill { padding: 7px 12px; border: 1px solid rgba(73,54,81,.45); border-radius: 999px; background: rgba(255,255,255,.44); font-size: 13px; font-weight: 900; }
+    .mahjong-board-shell { width: min(760px, 100%); margin: 16px auto; padding: clamp(10px, 3vw, 22px); border: 2px solid var(--purple-edge); border-radius: 16px; background: linear-gradient(145deg, #fff9e9, #e5d9ed); box-shadow: 0 12px 26px rgba(58,42,67,.16); }
+    .mahjong-board { display: grid; width: 100%; gap: clamp(1px, .35vw, 4px); margin-inline: auto; touch-action: manipulation; }
+    .mahjong-tile { --tile-edge-shadow: 0 4px 0 #c4b18e; --tile-shadow-y: 9px; --tile-shadow-blur: 13px; --tile-shadow-opacity: .3; position: relative; display: grid; min-width: 0; min-height: 48px; aspect-ratio: 1 / 1.13; place-items: center; padding: 3px; border: 1px solid #d7c9ae; border-bottom: 6px solid #b9a889; border-radius: 9px; background: linear-gradient(145deg, #fffef7, #f2e8d2); color: #42374a; cursor: pointer; font-family: "Apple Color Emoji", "Segoe UI Emoji", sans-serif; font-size: clamp(22px, 5vw, 40px); line-height: 1; box-shadow: var(--tile-edge-shadow), 0 var(--tile-shadow-y) var(--tile-shadow-blur) rgba(49,37,50,var(--tile-shadow-opacity)), inset 0 1px 2px rgba(255,255,255,.95); transition: translate 150ms ease, opacity 180ms ease, filter 150ms ease, box-shadow 150ms ease; -webkit-tap-highlight-color: transparent; }
+    .mahjong-tile::after { position: absolute; inset: 2px; border: 1px solid rgba(255,255,255,.72); border-radius: 6px; background: linear-gradient(145deg, rgba(255,255,255,.2), transparent 55%); content: ""; pointer-events: none; }
+    .mahjong-tile[data-layer="1"] { --tile-edge-shadow: 0 4px 0 #c9b998; --tile-shadow-y: 8px; --tile-shadow-blur: 11px; --tile-shadow-opacity: .3; }
+    .mahjong-tile[data-layer="2"] { --tile-edge-shadow: 0 5px 0 #c4b18e; --tile-shadow-y: 10px; --tile-shadow-blur: 14px; --tile-shadow-opacity: .34; }
+    .mahjong-tile[data-layer="3"] { --tile-edge-shadow: 0 6px 0 #bba681; --tile-shadow-y: 12px; --tile-shadow-blur: 17px; --tile-shadow-opacity: .38; }
+    .mahjong-tile.is-available:not(.is-selected) { box-shadow: var(--tile-edge-shadow), 0 var(--tile-shadow-y) var(--tile-shadow-blur) rgba(49,37,50,var(--tile-shadow-opacity)), inset 0 1px 2px rgba(255,255,255,.95); }
+    .mahjong-tile.is-available:not(.is-selected):hover { translate: 0 -4px; box-shadow: var(--tile-edge-shadow), 0 calc(var(--tile-shadow-y) + 4px) calc(var(--tile-shadow-blur) + 3px) rgba(49,37,50,var(--tile-shadow-opacity)), inset 0 1px 2px rgba(255,255,255,.95); }
+    .mahjong-photo { display: block; width: 100%; height: 100%; min-height: 0; border-radius: 5px; object-fit: cover; background: #fff; box-shadow: inset 0 0 0 1px rgba(48,40,48,.1); }
+    .mahjong-tile.is-covered { cursor: not-allowed; }
+    .mahjong-tile.is-covered .mahjong-photo { opacity: .45; }
+    .mahjong-tile.is-selected { translate: 0 -7px; outline: 3px solid #765895; outline-offset: 1px; box-shadow: var(--tile-edge-shadow), 0 var(--tile-shadow-y) var(--tile-shadow-blur) rgba(49,37,50,var(--tile-shadow-opacity)), 0 0 15px rgba(179,222,158,.6); }
+    .mahjong-tile:focus-visible, .mahjong-actions button:focus-visible, .mahjong-next:focus-visible { outline: 3px solid #235b3a; outline-offset: 3px; }
+    .mahjong-tile.is-matched { animation: mahjong-clear 420ms ease forwards; pointer-events: none; }
+    .mahjong-tile.is-miss { animation: mahjong-shake 330ms ease; }
+    .mahjong-message { min-height: 28px; margin: 10px auto; color: var(--leaf); font-weight: 800; }
+    .mahjong-actions { display: flex; flex-wrap: wrap; justify-content: center; gap: 9px; margin: 12px auto; }
+    .mahjong-actions button { min-height: 42px; padding: 8px 14px; border: 1px solid var(--purple-edge); border-radius: 7px; background: rgba(255,255,255,.6); color: var(--leaf); cursor: pointer; font: inherit; font-weight: 800; }
+    .mahjong-progress { width: min(440px, 100%); height: 12px; margin: 4px auto 10px; accent-color: var(--purple-dark); }
+    .mahjong-overlay { position: absolute; inset: 0; z-index: 12; display: grid; place-items: center; padding: 16px; border-radius: 14px; background: rgba(43,35,50,.55); }
+    .mahjong-overlay[hidden] { display: none; }
+    .mahjong-overlay-card { width: min(440px, 100%); padding: clamp(20px, 5vw, 34px); border: 2px solid var(--purple-edge); border-radius: 14px; background: #fff9e9; box-shadow: 0 12px 36px rgba(0,0,0,.22); animation: arrive 380ms ease both; }
+    .mahjong-overlay-card h3 { margin: 0 0 8px; font: 700 clamp(24px, 5vw, 36px) Georgia,serif; }
+    .mahjong-overlay-card p { line-height: 1.5; }
+    .mahjong-next { min-height: 46px; padding: 10px 20px; border: 0; border-radius: 8px; background: var(--purple-dark); color: white; cursor: pointer; font: inherit; font-weight: 900; }
+    .mahjong-board-wrap { position: relative; }
+    .mahjong-credits { margin: 10px auto 0; color: var(--leaf-soft); font-size: 12px; text-align: left; }
+    .mahjong-credits summary { cursor: pointer; font-weight: 800; text-align: center; }
+    .mahjong-credits ul { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 4px 18px; margin: 10px auto 0; padding-left: 20px; }
+    .mahjong-credits a { color: var(--leaf); }
+    @media (pointer: coarse) {
+      .mahjong-tile {
+        box-shadow: 0 2px 0 #b9a889;
+        transition: none;
+      }
+      .mahjong-tile::after,
+      .mahjong-photo { box-shadow: none; }
+      .mahjong-tile.is-available:not(.is-selected) {
+        box-shadow: 0 2px 0 #b9a889;
+      }
+      .mahjong-tile.is-available:not(.is-selected):hover {
+        translate: none;
+        box-shadow: 0 2px 0 #b9a889;
+      }
+      .mahjong-tile.is-selected {
+        box-shadow: 0 2px 0 #b9a889;
+      }
+      .mahjong-tile.is-miss { animation: none; }
+    }
+    @keyframes mahjong-clear { 35% { transform: scale(1.14) rotate(5deg); } 100% { transform: scale(.65) rotate(-8deg); opacity: 0; } }
+    @keyframes mahjong-shake { 25% { transform: translateX(-5px); } 50% { transform: translateX(5px); } 75% { transform: translateX(-3px); } }
+
+    .race-symbol-library {
+      position: absolute;
+      width: 0;
+      height: 0;
+      overflow: hidden;
+    }
+
+    .race-lead {
+      margin: 8px 0 18px;
+      color: var(--leaf-soft);
+      font-weight: 700;
+      text-align: center;
+    }
+
+    .race-vehicle-picker {
+      display: grid;
+      max-width: 680px;
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+      gap: 14px;
+      margin: 0 auto;
+    }
+
+    .race-vehicle-choice {
+      --race-paint: #6b844a;
+      display: flex;
+      min-width: 0;
+      min-height: 170px;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      gap: 6px;
+      padding: 16px;
+      border: 2px solid var(--purple-edge);
+      border-radius: 8px;
+      background: rgba(255,255,255,.34);
+      color: var(--leaf);
+      cursor: pointer;
+      font: inherit;
+      font-weight: 900;
+    }
+
+    .race-vehicle-choice[data-race-vehicle="challenger"] { --race-paint: #c54c3c; }
+    .race-vehicle-choice:hover,
+    .race-vehicle-choice[aria-pressed="true"] { background: rgba(255,255,255,.72); box-shadow: 0 0 0 3px var(--purple-dark); }
+    .race-vehicle-choice svg { display: block; width: min(250px, 100%); height: auto; color: var(--race-paint); }
+    .race-vehicle-choice small { color: var(--leaf-soft); font-weight: 600; }
+
+    .race-characters {
+      display: grid;
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+      gap: 10px;
+      margin: 20px auto;
+    }
+
+    .race-character-card {
+      display: flex;
+      min-width: 0;
+      align-items: center;
+      gap: 10px;
+      padding: 12px;
+      border: 1px solid rgba(73,54,81,.55);
+      border-radius: 8px;
+      background: rgba(255,255,255,.3);
+      text-align: left;
+    }
+
+    .race-character-icon {
+      flex: 0 0 auto;
+      font-family: "Apple Color Emoji", "Segoe UI Emoji", sans-serif;
+      font-size: 34px;
+      line-height: 1;
+    }
+
+    .race-character-role { display: block; font-size: 12px; font-weight: 900; }
+    .race-character-line { margin: 3px 0 0; color: var(--leaf-soft); font-size: 13px; line-height: 1.35; }
+
+    .race-live { margin-top: 20px; }
+
+    .race-hud {
+      display: grid;
+      grid-template-columns: minmax(0, 1fr) auto;
+      align-items: center;
+      gap: 8px 16px;
+      margin-bottom: 10px;
+      text-align: left;
+    }
+
+    .race-car-name { margin: 0; font-weight: 900; }
+    .race-progress-label { color: var(--leaf-soft); font-size: 13px; font-weight: 800; }
+
+    .race-progress {
+      width: 100%;
+      height: 14px;
+      grid-column: 1 / -1;
+      overflow: hidden;
+      border: 1px solid var(--purple-edge);
+      border-radius: 10px;
+      accent-color: var(--purple-dark);
+    }
+
+    .race-customization {
+      display: grid;
+      grid-template-columns: minmax(0, 1fr) minmax(0, 1fr) minmax(0, 1fr);
+      gap: 12px;
+      margin: 16px auto 20px;
+      padding: 14px;
+      border: 1px solid rgba(73,54,81,.5);
+      border-radius: 8px;
+      background: rgba(255,255,255,.3);
+      text-align: left;
+    }
+
+    .race-customization legend,
+    .race-customization-label { display: block; margin-bottom: 7px; font-size: 12px; font-weight: 900; }
+    .race-color-options { display: flex; flex-wrap: wrap; gap: 8px; }
+
+    .race-color-choice {
+      width: 34px;
+      height: 34px;
+      border: 2px solid #fff;
+      border-radius: 50%;
+      background: var(--paint-color);
+      box-shadow: 0 0 0 1px var(--purple-edge);
+      cursor: pointer;
+    }
+
+    .race-color-choice[aria-pressed="true"] { box-shadow: 0 0 0 3px var(--purple-dark); }
+
+    .race-customization select {
+      width: 100%;
+      min-height: 40px;
+      padding: 7px 9px;
+      border: 1px solid var(--purple-edge);
+      border-radius: 6px;
+      background: #fffdf5;
+      color: #302d2b;
+      font: inherit;
+    }
+
+    .race-canvas {
+      display: block;
+      width: 100%;
+      height: auto;
+      aspect-ratio: 16 / 10;
+      border: 3px solid var(--purple-edge);
+      border-radius: 8px;
+      background: #b9e39a;
+      touch-action: none;
+    }
+
+    .race-start-note { margin: 10px auto; color: var(--leaf-soft); font-weight: 700; }
+    .race-runner-controls {
+      display: grid;
+      grid-template-columns: repeat(4, minmax(0, 1fr));
+      gap: 8px;
+      max-width: 620px;
+      margin: 12px auto;
+      user-select: none;
+      -webkit-user-select: none;
+    }
+    .race-runner-controls .race-drive-button { min-height: 52px; font-size: 15px; touch-action: manipulation; }
+    .race-drive-button[data-race-control="jump"] { background: #fff2b8; }
+    .race-drive-button[data-race-control="slide"] { background: #d9c5ef; }
+    .race-answer-options { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 8px; }
+    .race-answer-option { min-height: 52px; padding: 8px; border: 2px solid var(--purple-edge); border-radius: 7px; background: #fffdf5; color: var(--leaf); cursor: pointer; font: inherit; font-size: 17px; font-weight: 900; }
+    .race-answer-option:hover { background: #fff2b8; }
+
+    .race-live-status {
+      display: flex;
+      flex-wrap: wrap;
+      align-items: center;
+      justify-content: space-between;
+      gap: 8px 16px;
+      margin: 8px 0;
+      color: var(--leaf);
+      font-size: 13px;
+      font-weight: 900;
+    }
+
+    .race-upgrade {
+      min-height: 38px;
+      padding: 7px 12px;
+      border: 1px solid var(--purple-edge);
+      border-radius: 6px;
+      background: #fff2b8;
+      color: #463b25;
+      cursor: pointer;
+      font: inherit;
+      font-size: 12px;
+      font-weight: 900;
+    }
+
+    .race-upgrade:disabled { cursor: not-allowed; opacity: .56; }
+
+    .race-drive-controls {
+      display: none;
+      grid-template-columns: minmax(0, 1fr) auto;
+      align-items: center;
+      gap: 12px;
+      margin: 10px 0 18px;
+      user-select: none;
+      -webkit-user-select: none;
+    }
+
+    .race-dpad {
+      display: grid;
+      grid-template-columns: repeat(3, minmax(48px, 68px));
+      grid-template-rows: repeat(2, 48px);
+      justify-content: center;
+      gap: 6px;
+    }
+
+    .race-drive-button {
+      min-width: 48px;
+      min-height: 46px;
+      padding: 7px 11px;
+      border: 2px solid var(--purple-edge);
+      border-radius: 7px;
+      background: rgba(255,255,255,.55);
+      color: var(--leaf);
+      cursor: pointer;
+      font: inherit;
+      font-size: 17px;
+      font-weight: 900;
+      touch-action: none;
+    }
+
+    .race-drive-button:active,
+    .race-drive-button.is-pressed { background: #f4d66d; transform: translateY(1px); }
+    .race-control-left { grid-column: 1; grid-row: 2; }
+    .race-control-up { grid-column: 2; grid-row: 1; }
+    .race-control-down { grid-column: 2; grid-row: 2; }
+    .race-control-right { grid-column: 3; grid-row: 2; }
+
+    .race-throttle-controls { display: flex; flex-direction: column; gap: 7px; }
+    .race-throttle-controls .race-drive-button { min-width: 106px; }
+    .race-mission-start {
+      display: block;
+      min-height: 48px;
+      margin: 14px auto 0;
+      padding: 10px 24px;
+      border: 2px solid var(--purple-edge);
+      border-radius: 8px;
+      background: #ffd82f;
+      color: #302d2b;
+      cursor: pointer;
+      font: inherit;
+      font-weight: 900;
+    }
+
+    .race-garage {
+      margin: 14px auto;
+      padding: 16px;
+      border: 2px solid var(--purple-edge);
+      border-radius: 8px;
+      background: rgba(255,255,255,.38);
+      text-align: left;
+    }
+
+    .race-garage h3 { margin: 0 0 8px; }
+    .race-garage-stats { display: flex; flex-wrap: wrap; gap: 7px 14px; margin: 8px 0 12px; font-size: 13px; font-weight: 900; }
+    .race-upgrade-options { display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); gap: 8px; }
+    .race-upgrade-option { min-height: 58px; padding: 8px; border: 1px solid var(--purple-edge); border-radius: 7px; background: #fffdf5; color: var(--leaf); cursor: pointer; font: inherit; font-size: 12px; font-weight: 800; }
+    .race-upgrade-option:disabled { opacity: .55; cursor: not-allowed; }
+    .race-inventory { margin: 6px 0; font-size: 12px; font-weight: 700; }
+    .race-mission-status { min-height: 24px; margin: 8px 0; color: var(--leaf); font-weight: 900; }
+    .race-code-fragments { margin: 8px 0; padding: 10px; border-radius: 7px; background: rgba(255,255,255,.55); font-size: 13px; line-height: 1.55; }
+    .race-finish .race-surprise-button { position: relative; z-index: 1; margin-top: 18px; }
+    .race-surprise {
+      width: min(760px, 100%);
+      margin: 20px auto 40px;
+      padding: 28px 18px;
+      border: 2px solid var(--purple-edge);
+      border-radius: 12px;
+      background: linear-gradient(145deg, rgba(255,255,255,.86), rgba(255,243,247,.9));
+      text-align: center;
+      scroll-margin-top: 20px;
+    }
+    .race-surprise h2 { margin: 0 0 8px; font-family: Georgia, "Times New Roman", serif; }
+    .race-surprise-copy { color: var(--leaf-soft); font-weight: 700; }
+    .race-gift-scene { display: flex; min-height: 290px; flex-wrap: wrap; align-items: center; justify-content: center; gap: 12px; margin: 14px auto; }
+    .race-gift-stage { position: relative; width: min(390px, 78vw); aspect-ratio: 1; isolation: isolate; }
+    .race-gift-art { position: absolute; z-index: 1; inset: 0; pointer-events: none; }
+    .race-gift-art img { display: block; width: 100%; height: 100%; object-fit: contain; }
+    .race-gift-press { position: absolute; z-index: 7; inset: 0; width: 100%; border: 0; border-radius: 18px; background: transparent; cursor: pointer; }
+    .race-gift-press:focus-visible, .race-gift-key:focus-visible, #launch-gift-game:focus-visible { outline: 3px solid #235b3a; outline-offset: 4px; }
+    .race-gift-key { position: absolute; z-index: 8; top: 52%; left: 50%; display: grid; width: 82px; height: 82px; place-items: center; padding: 0; border: 2px solid #c58d22; border-radius: 50%; background: radial-gradient(circle at 35% 28%, #fff8d5, #f0c14f 67%, #d99826); color: #a36b13; cursor: pointer; touch-action: manipulation; box-shadow: 0 7px 14px rgba(102,76,29,.28), inset 0 2px 3px rgba(255,255,255,.85); opacity: 0; transform: translate(-50%, 35px) scale(.5) rotate(-45deg); transition: opacity 250ms ease, transform 450ms cubic-bezier(.2,.8,.2,1), box-shadow 180ms ease; }
+    .race-gift-key[hidden] { display: none; }
+    .race-gift-key svg { width: 58px; height: 58px; filter: drop-shadow(0 2px 1px rgba(108,67,10,.35)); }
+    .race-gift-key.is-visible { opacity: 1; transform: translate(-50%, -100%) scale(1) rotate(0); }
+    .race-gift-status { min-height: 26px; margin: 6px auto; color: var(--leaf); font-weight: 800; }
+    .race-gift-message { max-width: 560px; margin: 18px auto 4px; padding: 18px; border: 1px solid rgba(118,88,149,.3); border-radius: 12px; background: rgba(255,255,255,.7); color: var(--purple-dark); font: 700 clamp(17px, 3vw, 22px) Georgia,serif; line-height: 1.55; }
+    .race-gift-sparkles { position: absolute; z-index: 4; inset: 0; overflow: hidden; pointer-events: none; }
+    .race-gift-sparkles span { position: absolute; top: -12%; left: var(--sparkle-x); width: 8px; height: 13px; border-radius: 3px; background: var(--sparkle-color); opacity: 0; }
+    .race-surprise.is-open .race-gift-sparkles span { animation: gift-sparkle-fall 2.4s ease-in var(--sparkle-delay) both; }
+    .race-surprise.is-open .race-gift-press { cursor: default; }
+    @keyframes gift-sparkle-fall { 0% { opacity: 0; transform: translateY(0) rotate(0); } 12% { opacity: 1; } 100% { opacity: 0; transform: translateY(320px) rotate(540deg); } }
+    @media (prefers-reduced-motion: reduce) {
+      .race-surprise.is-open .race-gift-sparkles span { animation-duration: .01ms; animation-iteration-count: 1; }
+    }
+
+    .race-route-panel {
+      margin-top: 14px;
+      padding: 16px;
+      border: 2px solid var(--purple-edge);
+      border-radius: 8px;
+      background: rgba(255,255,255,.38);
+      text-align: center;
+    }
+
+    .race-route-panel h3 { margin: 0 0 6px; }
+    .race-route-options { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 10px; margin-top: 12px; }
+    .race-route-choice { min-height: 76px; padding: 10px; border: 1px solid var(--purple-edge); border-radius: 7px; background: rgba(255,255,255,.58); color: var(--leaf); cursor: pointer; font: inherit; font-weight: 800; }
+    .race-route-choice small { display: block; margin-top: 4px; color: var(--leaf-soft); font-weight: 600; }
+    .race-clues { margin: 6px 0; font-size: 12px; font-weight: 800; }
+
+    .race-track {
+      position: relative;
+      overflow: hidden;
+      padding: 12px 0;
+      border: 2px solid var(--purple-edge);
+      border-radius: 8px;
+      background: #b9e39a;
+    }
+
+    .race-track::before,
+    .race-track::after {
+      position: absolute;
+      right: 0;
+      left: 0;
+      height: 8px;
+      background: repeating-linear-gradient(90deg, #f4e4a3 0 22px, #fff 22px 42px);
+      content: "";
+    }
+
+    .race-track::before { top: 0; }
+    .race-track::after { bottom: 0; }
+
+    .race-lane {
+      position: relative;
+      height: 68px;
+      overflow: hidden;
+      background: #484750;
+    }
+
+    .race-lane + .race-lane { border-top: 2px dashed rgba(255,255,255,.76); }
+
+    .race-lane-marking {
+      position: absolute;
+      top: calc(50% - 1px);
+      right: 0;
+      left: 0;
+      height: 2px;
+      background: repeating-linear-gradient(90deg, rgba(255,255,255,.74) 0 18px, transparent 18px 34px);
+    }
+
+    .race-lane.is-moving .race-lane-marking { animation: lane-scroll 360ms linear infinite; }
+
+    .race-car-sprite {
+      position: absolute;
+      z-index: 2;
+      top: 6px;
+      left: var(--car-position, 4%);
+      width: clamp(86px, 20vw, 122px);
+      height: 55px;
+      transition: left 620ms cubic-bezier(.18,.8,.28,1);
+      filter: drop-shadow(0 3px 2px rgba(0,0,0,.35));
+    }
+
+    .race-car-sprite.is-player { filter: drop-shadow(0 0 6px #ffe273) drop-shadow(0 3px 2px rgba(0,0,0,.4)); }
+    .race-car-sprite svg { display: block; width: 100%; height: 100%; overflow: visible; }
+    .race-wheel { transform-box: fill-box; transform-origin: center; }
+    .race-car-sprite.is-moving .race-wheel { animation: wheel-spin 300ms linear infinite; }
+
+    .race-obstacle {
+      position: absolute;
+      z-index: 3;
+      top: 50%;
+      left: 61%;
+      display: grid;
+      width: 42px;
+      height: 42px;
+      place-items: center;
+      border: 2px solid #4d392d;
+      border-radius: 50%;
+      background: #ffe69a;
+      font-family: "Apple Color Emoji", "Segoe UI Emoji", sans-serif;
+      font-size: 23px;
+      line-height: 1;
+      transform: translate(-50%, -50%);
+      transition: opacity 180ms ease, transform 180ms ease;
+    }
+
+    .race-obstacle.is-cleared { opacity: 0; transform: translate(40px, -50%) scale(.4); }
+
+    .race-commentary {
+      margin: 12px 0;
+      color: var(--leaf);
+      font-weight: 800;
+      line-height: 1.45;
+      text-align: center;
+    }
+
+    .race-math-panel,
+    .race-code-panel,
+    .race-finish {
+      margin-top: 14px;
+      padding: clamp(14px, 3vw, 22px);
+      border: 2px solid var(--purple-edge);
+      border-radius: 8px;
+      background: rgba(255,255,255,.36);
+      text-align: center;
+    }
+
+    .race-challenge-name { margin: 0 0 6px; color: var(--leaf-soft); font-size: 13px; font-weight: 900; text-transform: uppercase; }
+    .race-question { margin: 0 0 14px; font-size: clamp(20px, 4vw, 26px); font-weight: 900; }
+
+    .race-answer-form,
+    .race-code-form {
+      display: flex;
+      flex-wrap: wrap;
+      align-items: center;
+      justify-content: center;
+      gap: 8px;
+    }
+
+    .race-answer-input,
+    .race-code-input {
+      width: min(180px, 58vw);
+      min-height: 44px;
+      padding: 8px 12px;
+      border: 2px solid var(--purple-edge);
+      border-radius: 7px;
+      background: #fffdf5;
+      color: #302d2b;
+      font: inherit;
+      font-size: 18px;
+      text-align: center;
+    }
+
+    .race-answer-feedback { min-height: 24px; margin: 10px 0 0; color: var(--leaf); font-weight: 800; }
+
+    .race-finish {
+      position: relative;
+      overflow: hidden;
+      background: rgba(255,255,255,.46);
+    }
+
+    .race-finish h3 { position: relative; z-index: 1; margin: 4px 0 8px; font-family: Georgia, "Times New Roman", serif; font-size: clamp(24px, 5vw, 34px); }
+    .race-finish p { position: relative; z-index: 1; margin: 0; font-weight: 700; }
+    .race-surprise-button { min-height: 48px; margin-top: 18px; padding: 10px 20px; border: 2px solid var(--purple-edge); border-radius: 8px; background: #ffd82f; color: #302d2b; cursor: pointer; font: inherit; font-weight: 900; }
+
+    .race-firework {
+      position: absolute;
+      top: 38px;
+      left: 18%;
+      width: 10px;
+      height: 10px;
+      border-radius: 50%;
+      background: #ffd82f;
+      box-shadow: 0 -24px #f26475, 17px -17px #5b9bd5, 24px 0 #ffd82f, 17px 17px #69a877, 0 24px #f26475, -17px 17px #a779c5, -24px 0 #69a877, -17px -17px #ffd82f;
+      animation: firework-pop 1.2s ease-out infinite;
+    }
+
+    .race-firework.is-second { top: auto; right: 18%; bottom: 24px; left: auto; animation-delay: 420ms; }
+
+    .race-confetti { position: absolute; inset: 0; overflow: hidden; pointer-events: none; }
+
+    .race-confetti span {
+      position: absolute;
+      top: -12px;
+      left: var(--confetti-x);
+      width: 7px;
+      height: 12px;
+      border-radius: 2px;
+      background: var(--confetti-color);
+      animation: confetti-fall 2.2s var(--confetti-delay) ease-in infinite;
+      transform: rotate(var(--confetti-rotation));
+    }
+
+    @keyframes lane-scroll {
+      to { background-position-x: -34px; }
+    }
+
+    @keyframes wheel-spin {
+      to { transform: rotate(360deg); }
+    }
+
+    @keyframes firework-pop {
+      0%, 100% { opacity: .35; transform: scale(.55); }
+      45% { opacity: 1; transform: scale(1.05); }
+    }
+
+    @keyframes cake-firework-burst {
+      0% { opacity: 1; transform: translate(-50%, -50%) scale(.35); }
+      78% { opacity: 1; transform: translate(var(--sparkle-x), var(--sparkle-y)) scale(1); }
+      100% { opacity: 0; transform: translate(var(--sparkle-x), var(--sparkle-y)) scale(.25); }
+    }
+
+    @keyframes confetti-fall {
+      to { transform: translateY(240px) rotate(520deg); }
+    }
+
+    .sudoku-section {
+      margin-top: clamp(44px, 9vh, 84px);
+      padding: 30px 0 50px;
+      border-top: 2px solid rgba(35,91,58,.28);
+      scroll-margin-top: 20px;
+    }
+
+    .sudoku-intro {
+      margin: 8px 0 22px;
+      color: var(--leaf-soft);
+      font-size: 15px;
+      font-weight: 600;
+    }
+
+    .sudoku-layout {
+      display: grid;
+      grid-template-columns: minmax(0, 620px) minmax(220px, 240px);
+      align-items: start;
+      justify-content: center;
+      gap: clamp(18px, 3vw, 28px);
+    }
+
+    .sudoku-board {
+      display: grid;
+      width: min(100%, 440px);
+      aspect-ratio: 1;
+      grid-template-columns: repeat(var(--sudoku-size, 4), minmax(0, 1fr));
+      grid-template-rows: repeat(var(--sudoku-size, 4), minmax(0, 1fr));
+      overflow: hidden;
+      border: 5px solid var(--purple-edge);
+      border-radius: 16px;
+      background: linear-gradient(145deg, #fffdf2, #e7dbf0);
+      box-shadow: 0 14px 30px rgba(58,42,67,.2), inset 0 0 0 2px rgba(255,255,255,.7);
+    }
+
+    .sudoku-cell {
+      display: grid;
+      min-width: 0;
+      min-height: 0;
+      overflow: hidden;
+      place-items: center;
+      padding: 0;
+      border: 0;
+      border-right: 1px solid rgba(73,54,81,.35);
+      border-bottom: 1px solid rgba(73,54,81,.35);
+      background: rgba(255,255,255,.34);
+      color: #302d2b;
+      cursor: pointer;
+      font-family: "Apple Color Emoji", "Segoe UI Emoji", sans-serif;
+      font-size: clamp(25px, 5.5vw, 38px);
+      line-height: 1;
+    }
+
+    .sudoku-board[data-size="6"],
+    .sudoku-board[data-size="8"] {
+      width: min(100%, 620px);
+      border-width: 6px;
+      border-radius: 18px;
+    }
+
+    .sudoku-board[data-size="4"] .sudoku-cell:nth-child(4n) { border-right: 0; }
+    .sudoku-board[data-size="4"] .sudoku-cell:nth-child(n+13) { border-bottom: 0; }
+    .sudoku-cell.box-right { border-right: 5px solid var(--purple-edge); }
+    .sudoku-cell.box-bottom { border-bottom: 5px solid var(--purple-edge); }
+    .sudoku-cell.last-column { border-right: 0; }
+    .sudoku-cell.last-row { border-bottom: 0; }
+    .sudoku-board[data-size="6"] .sudoku-cell,
+    .sudoku-board[data-size="8"] .sudoku-cell { background: rgba(255,255,255,.48); }
+    .sudoku-board[data-size="6"] .sudoku-cell { font-size: clamp(19px, 4vw, 30px); }
+    .sudoku-board[data-size="8"] .sudoku-cell { font-size: clamp(16px, 3.3vw, 24px); }
+    .sudoku-board[data-size="6"] .sudoku-sticker,
+    .sudoku-board[data-size="8"] .sudoku-sticker { width: 96%; height: 96%; }
+    .sudoku-sticker { display: block; width: 88%; height: 88%; min-width: 0; min-height: 0; object-fit: contain; pointer-events: none; }
+
+    .sudoku-cell.is-given {
+      background: linear-gradient(145deg, rgba(255,255,255,.9), rgba(241,230,250,.82));
+      cursor: default;
+    }
+
+    .sudoku-cell.is-selected { background: #fff2b8; box-shadow: inset 0 0 0 4px var(--purple-dark); }
+    .sudoku-cell.is-correct { background: #d8efc8; }
+    .sudoku-cell.is-incorrect {
+      position: relative;
+      background: #f2c5bd;
+      box-shadow: inset 0 0 0 3px #a83232;
+    }
+
+    .sudoku-cell.is-incorrect::after {
+      position: absolute;
+      top: 3px;
+      right: 3px;
+      display: grid;
+      width: 18px;
+      height: 18px;
+      place-items: center;
+      border-radius: 50%;
+      background: #a83232;
+      color: #fff;
+      content: "!";
+      font: 900 13px/1 "Trebuchet MS", "Segoe UI", sans-serif;
+    }
+
+    .sudoku-controls {
+      min-width: 0;
+      text-align: left;
+    }
+
+    .picker-prompt {
+      margin: 0 0 10px;
+      font-size: 17px;
+      font-weight: 800;
+    }
+
+    .symbol-options {
+      display: grid;
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+      gap: 8px;
+    }
+
+    .symbol-option {
+      display: flex;
+      min-height: 54px;
+      align-items: center;
+      justify-content: flex-start;
+      gap: 9px;
+      padding: 8px 10px;
+      border: 1px solid var(--purple-edge);
+      border-radius: 7px;
+      background: rgba(255,255,255,.4);
+      color: #302d2b;
+      cursor: pointer;
+      font: inherit;
+      font-weight: 700;
+      text-align: left;
+    }
+
+    .symbol-option span:first-child {
+      font-family: "Apple Color Emoji", "Segoe UI Emoji", sans-serif;
+      font-size: 26px;
+      line-height: 1;
+    }
+
+    .symbol-option .symbol-option-image { width: 36px; height: 36px; object-fit: contain; }
+
+    .sudoku-actions { display: flex; flex-wrap: wrap; gap: 10px; margin-top: 16px; }
+
+    .sudoku-level { margin: 0 0 6px; color: var(--leaf); font-weight: 900; }
+
+    .primary-action,
+    .secondary-action,
+    .replay-action {
+      min-height: 44px;
+      padding: 10px 18px;
+      border: 0;
+      border-radius: 7px;
+      background: var(--purple-dark);
+      color: #fff;
+      cursor: pointer;
+      font: inherit;
+      font-weight: 800;
+    }
+
+    .secondary-action {
+      border: 2px solid var(--purple-dark);
+      background: rgba(255,255,255,.56);
+      color: var(--purple-dark);
+    }
+
+    .feedback {
+      min-height: 24px;
+      margin: 12px 0 0;
+      color: var(--leaf);
+      font-weight: 700;
+    }
+
+    .win-panel {
+      margin-top: 14px;
+      padding: 16px;
+      border: 2px solid var(--purple-edge);
+      border-radius: 8px;
+      background: rgba(255,255,255,.38);
+      text-align: center;
+    }
+
+    .win-panel h3 { margin: 0 0 6px; }
+    .win-panel p { margin: 0 0 12px; }
+
+    .lasagna-reward {
+      max-width: 430px;
+      margin: 18px auto 0;
+      padding-top: 16px;
+      border-top: 1px solid rgba(73,54,81,.3);
+    }
+
+    .lasagna-message {
+      margin: 0 0 8px;
+      color: var(--leaf);
+      font-weight: 800;
+      line-height: 1.5;
+    }
+
+    .lasagna-bite {
+      width: min(280px, 100%);
+      padding: 0;
+      border: 0;
+      border-radius: 8px;
+      background: transparent;
+      cursor: pointer;
+      touch-action: manipulation;
+    }
+
+    .lasagna-bite:disabled { cursor: default; }
+
+    .lasagna-stage {
+      position: relative;
+      display: block;
+      width: 100%;
+    }
+
+    .lasagna-art {
+      display: block;
+      width: 100%;
+      height: auto;
+      overflow: visible;
+    }
+
+    .lasagna-bite-pop {
+      position: absolute;
+      top: 0;
+      right: 0;
+      padding: 7px 12px;
+      border: 2px solid var(--purple-edge);
+      border-radius: 20px;
+      background: #fff2b8;
+      color: #5c3a2b;
+      font-size: 15px;
+      font-weight: 900;
+      opacity: 0;
+      pointer-events: none;
+      transform: translateY(5px) scale(.85) rotate(4deg);
+    }
+
+    .lasagna-bite-pop.is-bouncing {
+      animation: bite-pop 800ms cubic-bezier(.2,.8,.2,1) both;
+    }
+
+    .lasagna-status {
+      margin: 0;
+      color: var(--leaf-soft);
+      font-size: 14px;
+      font-weight: 700;
+    }
+
+    .lasagna-finished {
+      margin: 10px 0 0;
+      color: var(--leaf);
+      font-weight: 800;
+      line-height: 1.5;
+    }
+
+    @keyframes bite-pop {
+      0% { opacity: 0; transform: translateY(7px) scale(.75) rotate(4deg); }
+      22% { opacity: 1; transform: translateY(-8px) scale(1.08) rotate(-5deg); }
+      72% { opacity: 1; transform: translateY(-17px) scale(1) rotate(3deg); }
+      100% { opacity: 0; transform: translateY(-24px) scale(.94) rotate(0); }
+    }
+
+    [hidden] { display: none !important; }
+
+    @keyframes arrive {
+      from { opacity: 0; transform: translateY(18px) scale(.97); }
+      to { opacity: 1; transform: translateY(0) scale(1); }
+    }
+
+    @media (max-width: 920px) {
+      .sudoku-layout { grid-template-columns: minmax(0, 620px); }
+      .sudoku-controls { text-align: center; }
+    }
+
+    @media (max-width: 520px) {
+      main { padding: clamp(14px, 3vh, 24px) 12px 8px; }
+      h1 { font-size: clamp(42px, 11vw, 60px); }
+      .subtitle { max-width: 320px; margin: 10px 0; }
+      .cake-scene { width: min(600px, 98vw, calc((100svh - 185px) * 1.0588235)); }
+      .icing-text { font-size: 30px; }
+      .game-launchers { grid-template-columns: 1fr; max-width: 360px; }
+      .game-launcher { min-height: 128px; }
+      .sudoku-layout { grid-template-columns: minmax(0, 620px); }
+      .sudoku-controls { text-align: center; }
+      .symbol-options { grid-template-columns: repeat(4, minmax(0, 1fr)); }
+      .symbol-option { min-height: 58px; flex-direction: column; justify-content: center; gap: 3px; padding: 6px 3px; font-size: 12px; text-align: center; }
+      .race-answer-options { grid-template-columns: 1fr; }
+      .race-vehicle-choice { min-height: 145px; }
+      .race-characters { grid-template-columns: minmax(0, 1fr); }
+      .mahjong-tile { min-height: 38px; border-radius: 7px; border-bottom-width: 3px; }
+      .mahjong-credits ul { grid-template-columns: 1fr; }
+      .race-customization { grid-template-columns: minmax(0, 1fr); }
+      .race-lane { height: 58px; }
+      .race-car-sprite { top: 4px; width: clamp(78px, 26vw, 100px); height: 48px; }
+      .race-obstacle { width: 36px; height: 36px; font-size: 20px; }
+      .race-hud { gap: 6px 8px; }
+      .race-runner-controls { gap: 5px; }
+      .race-runner-controls .race-drive-button { padding-inline: 4px; font-size: 13px; }
+      .race-throttle-controls { flex-direction: row; justify-content: center; }
+      .race-throttle-controls .race-drive-button { min-width: 112px; }
+      .race-route-options { grid-template-columns: minmax(0, 1fr); }
+      .race-upgrade-options { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+      .music-widget {
+        top: calc(8px + env(safe-area-inset-top));
+        left: 10px;
+        width: min(360px, calc(100vw - 20px));
+      }
+    }
+
+    @media (prefers-reduced-motion: reduce) {
+      *, *::before, *::after { animation-duration: .01ms !important; animation-iteration-count: 1 !important; }
+    }
+  </style>
+</head>
+<body>
+  <main>
+    <p class="eyebrow">Hoy se celebra en grande</p>
+    <h1><span>¡Feliz</span><span>cumple, Pato!</span></h1>
+    <p class="subtitle">Que tu día esté lleno de risas, pastel y cosas bonitas.</p>
+
+    <button class="cake-scene" id="cake-trigger" type="button" aria-label="Tocar el pastel para ver fuegos artificiales">
+      <svg class="cake-art" viewBox="0 0 540 510" role="img" aria-label="Pastel redondo morado con letras amarillas y un pato sonriente">
+        <title>Pastel de cumpleaños de Pato</title>
+        <defs>
+          <linearGradient id="cake-side" x1="0" y1="0" x2="1" y2="0">
+            <stop offset="0" stop-color="#594269" />
+            <stop offset=".2" stop-color="#76598c" />
+            <stop offset=".48" stop-color="#9273a5" />
+            <stop offset=".78" stop-color="#745487" />
+            <stop offset="1" stop-color="#503a61" />
+          </linearGradient>
+          <radialGradient id="cake-top" cx="43%" cy="28%" r="78%">
+            <stop offset="0" stop-color="#896da0" />
+            <stop offset=".58" stop-color="#755b8d" />
+            <stop offset="1" stop-color="#604875" />
+          </radialGradient>
+          <linearGradient id="piping" x1="0" y1="0" x2="1" y2="1">
+            <stop offset="0" stop-color="#b49ac8" />
+            <stop offset=".42" stop-color="#8a6aa3" />
+            <stop offset="1" stop-color="#624674" />
+          </linearGradient>
+          <radialGradient id="duck-body" cx="38%" cy="27%" r="78%">
+            <stop offset="0" stop-color="#f7d75c" />
+            <stop offset=".72" stop-color="#edbc38" />
+            <stop offset="1" stop-color="#dca12e" />
+          </radialGradient>
+          <pattern id="frosting-speckles" width="31" height="27" patternUnits="userSpaceOnUse">
+            <circle cx="5" cy="8" r="1.2" fill="#d6c5df" opacity=".13" />
+            <circle cx="22" cy="19" r="1" fill="#382844" opacity=".12" />
+          </pattern>
+          <clipPath id="top-clip"><ellipse cx="270" cy="215" rx="240" ry="175" /></clipPath>
+          <filter id="cake-shadow" x="-20%" y="-30%" width="140%" height="170%">
+            <feDropShadow dx="0" dy="12" stdDeviation="9" flood-color="#30402e" flood-opacity=".22" />
+          </filter>
+          <filter id="letter-shadow" x="-15%" y="-30%" width="130%" height="160%">
+            <feDropShadow dx="1" dy="2" stdDeviation="1" flood-color="#342340" flood-opacity=".38" />
+          </filter>
+          <path id="top-curve" d="M 82 180 C 120 18, 420 18, 458 180" />
+          <g id="piped-shell">
+            <path d="M-25 12 C-24 0 -18-14 -7-20 C1-29 14-22 18-11 C25-2 25 7 23 15 C14 8 7 9 0 17 C-8 9-15 8-25 12Z" fill="url(#piping)" stroke="#51395f" stroke-width="2.5" />
+            <path d="M-16 3 C-13-6 -8-13-2-17 M-5 9 C-2 0 3-9 8-17 M7 10 C12 2 15-4 16-10" fill="none" stroke="#d0bddb" stroke-linecap="round" stroke-width="2.4" opacity=".62" />
+          </g>
+        </defs>
+        <ellipse cx="270" cy="475" rx="242" ry="24" fill="#392a43" opacity=".19" />
+        <path d="M30 215 C30 319 132 389 270 389 C408 389 510 319 510 215 L510 337 C510 420 408 475 270 475 C132 475 30 420 30 337Z" fill="url(#cake-side)" stroke="#4b365c" stroke-linejoin="round" stroke-width="7" filter="url(#cake-shadow)" />
+        <path d="M36 355 C47 402 119 438 180 449" fill="none" stroke="#b89dca" stroke-linecap="round" stroke-width="5" opacity=".16" />
+        <g aria-hidden="true">
+          <use href="#piped-shell" transform="translate(58 351) rotate(-29) scale(.48 .54)" />
+          <use href="#piped-shell" transform="translate(80 384) rotate(-22) scale(.58 .65)" />
+          <use href="#piped-shell" transform="translate(112 416) rotate(-17) scale(.7 .76)" />
+          <use href="#piped-shell" transform="translate(151 441) rotate(-11) scale(.82 .87)" />
+          <use href="#piped-shell" transform="translate(197 459) rotate(-6) scale(.93 .95)" />
+          <use href="#piped-shell" transform="translate(247 466) rotate(-2) scale(1 .98)" />
+          <use href="#piped-shell" transform="translate(297 466) rotate(2) scale(1 .98)" />
+          <use href="#piped-shell" transform="translate(347 459) rotate(6) scale(.93 .95)" />
+          <use href="#piped-shell" transform="translate(393 441) rotate(11) scale(.82 .87)" />
+          <use href="#piped-shell" transform="translate(432 416) rotate(17) scale(.7 .76)" />
+          <use href="#piped-shell" transform="translate(464 384) rotate(22) scale(.58 .65)" />
+          <use href="#piped-shell" transform="translate(482 351) rotate(29) scale(.48 .54)" />
+        </g>
+        <ellipse cx="270" cy="215" rx="240" ry="175" fill="url(#cake-top)" stroke="#4b365c" stroke-width="8" />
+        <rect x="28" y="38" width="484" height="350" fill="url(#frosting-speckles)" clip-path="url(#top-clip)" />
+        <ellipse cx="270" cy="215" rx="233" ry="168" fill="none" stroke="#c4afd2" stroke-width="2" opacity=".2" />
+        <g class="icing-text">
+          <text><textPath href="#top-curve" text-anchor="middle" startOffset="50%">ES MI CUMPLE</textPath></text>
+          <text x="270" y="316" text-anchor="middle">HAGAN LO QUE</text>
+          <text x="270" y="348" text-anchor="middle">YO DIGO</text>
+        </g>
+        <g class="duck-art" transform="translate(195 137) scale(.76) rotate(-3 100 100)" filter="url(#letter-shadow)">
+          <path d="M55 174 C55 187 64 198 75 198 C86 198 93 187 93 174Z" fill="#d47c35" stroke="#3b1512" stroke-linejoin="round" stroke-width="7" />
+          <path d="M107 174 C107 187 114 198 125 198 C136 198 143 187 143 174Z" fill="#d47c35" stroke="#3b1512" stroke-linejoin="round" stroke-width="7" />
+          <path d="M100 8 C54 8 24 37 20 76 C17 85 7 96 5 109 C3 121 8 131 17 135 C28 139 36 131 39 120 C42 130 36 138 25 140 A75 46 0 0 0 175 140 C164 138 158 130 161 120 C164 131 172 139 183 135 C192 131 197 121 195 109 C193 96 183 85 180 75 C174 37 145 8 100 8Z" fill="url(#duck-body)" stroke="#3b1512" stroke-linejoin="round" stroke-width="7" />
+          <path d="M31 108 C22 105 15 111 16 119 C16 124 19 128 25 130 M169 108 C178 105 185 111 184 119 C184 124 181 128 175 130" fill="none" stroke="#9d762e" stroke-linecap="round" stroke-width="6" />
+          <circle cx="68" cy="64" r="6" fill="#32120f" />
+          <circle cx="132" cy="64" r="6" fill="#32120f" />
+          <ellipse cx="100" cy="83" rx="23" ry="11" fill="#d77a1e" stroke="#3b1512" stroke-width="6" />
+          <path d="M48 119 L106 108 Q100 125 78 138 C66 143 56 138 49 131Z" fill="#b9c0c1" stroke="#3b1512" stroke-linejoin="round" stroke-width="7" />
+          <path d="M50 118 L29 124 L30 138 L53 133Z" fill="#302d2b" stroke="#3b1512" stroke-linejoin="round" stroke-width="6" />
+          <path d="M48 119 L46 134" fill="none" stroke="#3b1512" stroke-width="6" />
+          <path d="M61 120 L94 112" fill="none" stroke="#e1e5e3" stroke-linecap="round" stroke-width="3" />
+        </g>
+      </svg>
+      <span class="cake-fireworks" id="cake-fireworks" aria-hidden="true"></span>
+    </button>
+    <p class="cake-hint" id="cake-hint" aria-live="polite">Toca el pastel para ver fuegos artificiales 🎆</p>
+
+    <aside class="music-widget" id="music-widget" aria-labelledby="music-heading">
+      <div class="music-widget-header">
+        <h2 class="music-widget-title" id="music-heading">Tu música, Pato 🎵</h2>
+        <button class="music-widget-toggle" id="music-widget-toggle" type="button" aria-label="Minimizar reproductor" aria-expanded="true" aria-controls="music-widget-content">−</button>
+      </div>
+      <div class="music-widget-content" id="music-widget-content">
+        <label class="music-select-label" for="music-select">Elige una canción</label>
+        <select class="music-select" id="music-select" aria-describedby="music-player-status">
+          <option value="" selected disabled>Selecciona una canción</option>
+          <option value="3zNcn4BaVfKORyx3uDfruW">Aprender a quererte</option>
+          <option value="1D0wDWgc24OzKjFowMMxWH">Bajo la mesa</option>
+          <option value="3iyCM8b7clmfGHTAeIzFHK">El embrujo</option>
+          <option value="5KgdtjmglXPjJNKvMvSjgo">Besos en guerra</option>
+          <option value="2fCJ4fe6s0CIRfcJpgMBpX">Cuando el amor se escapa</option>
+          <option value="2kVtMvrlcK5SRxZvdHgTzn">Mi suerte</option>
+          <option value="3dtdmf6pvv11KNJWxKlT07">Mil tormentas</option>
+          <option value="5gipgJiWDAjeZiebW0nr0G">Mi vida entera</option>
+          <option value="5H7E0UH2F8drwjoz9ufPQm">Mi nuevo vicio</option>
+          <option value="54MXhSrLE17XFvN9EKgPaF">De Ludwin para ti</option>
+          <option value="4NiITCc4gDXURoiQ5a7sjj">De mí para ti</option>
+        </select>
+        <p class="music-player-status" id="music-player-status" role="status" aria-live="polite">Elige una canción y toca ▶ en el reproductor de Spotify.</p>
+        <div class="music-player-shell" id="music-player-shell" aria-label="Reproductor de audio de Morat en Spotify" hidden>
+          <div id="music-player"></div>
+        </div>
+      </div>
+    </aside>
+
+    <section class="games-section" aria-labelledby="games-heading">
+      <h2 class="section-title" id="games-heading">¿Quieres jugar?</h2>
+      <div class="game-launchers">
+        <button class="game-launcher" id="launch-sudoku" type="button" aria-controls="panda-duck-game">
+          <span class="game-art" aria-hidden="true"><span>🐼</span><span>🦆</span></span>
+          <span class="game-title">El reto del Panda y el Pato</span>
+          <span class="game-action">Jugar</span>
+        </button>
+        <button class="game-launcher" id="launch-race" type="button" aria-controls="birthday-race">
+          <span class="game-art" aria-hidden="true">🀄🌸</span>
+          <span class="game-title">Mahjong de la sorpresa</span>
+          <span class="game-action">Jugar</span>
+        </button>
+        <button class="game-launcher" id="launch-gift-game" type="button" disabled aria-controls="birthday-letters" aria-describedby="gift-game-lock-status">
+          <span class="game-art" aria-hidden="true">💌</span>
+          <span class="game-title">¿Qué hay aquí?</span>
+          <span class="coming-soon" id="gift-game-lock-status">La llave está en uno de los dos juegos</span>
+        </button>
+      </div>
+    </section>
+
+    <section class="sudoku-section" id="panda-duck-game" aria-labelledby="sudoku-heading">
+      <h2 class="section-title" id="sudoku-heading">El reto del Panda y el Pato</h2>
+      <p class="sudoku-level" id="sudoku-level" aria-live="polite">Nivel 1 de 3 · 4×4</p>
+      <p class="sudoku-intro" id="sudoku-instructions">Completa filas, columnas y cuadros 2×2 sin repetir símbolos.</p>
+      <div class="sudoku-layout">
+        <div class="sudoku-board" id="sudoku-board" role="group" aria-label="Tablero de Sudoku de cuatro por cuatro"></div>
+        <div class="sudoku-controls">
+          <div class="symbol-picker" id="symbol-picker" hidden>
+            <p class="picker-prompt" id="picker-prompt">Elige un símbolo</p>
+            <div class="symbol-options" id="symbol-options">
+              <button class="symbol-option" type="button" data-symbol="panda" aria-label="Elegir panda"><span aria-hidden="true">🐼</span><span>Panda</span></button>
+              <button class="symbol-option" type="button" data-symbol="duck" aria-label="Elegir pato"><span aria-hidden="true">🦆</span><span>Pato</span></button>
+              <button class="symbol-option" type="button" data-symbol="star" aria-label="Elegir estrella"><span aria-hidden="true">⭐</span><span>Estrella</span></button>
+              <button class="symbol-option" type="button" data-symbol="cake" aria-label="Elegir pastel"><span aria-hidden="true">🎂</span><span>Pastel</span></button>
+            </div>
+          </div>
+          <div class="sudoku-actions">
+            <button class="primary-action" id="check-sudoku" type="button">Comprobar</button>
+            <button class="secondary-action" id="hint-sudoku" type="button">💡 Darme una pista</button>
+          </div>
+          <p class="feedback" id="sudoku-feedback" role="status" aria-live="polite"></p>
+          <div class="win-panel" id="win-panel" hidden>
+            <h3 id="sudoku-win-title">¡Lo lograste! 🎉</h3>
+            <p id="sudoku-win-copy">Completaste el reto del Panda y el Pato.</p>
+            <button class="replay-action" id="next-sudoku-level" type="button" hidden>Siguiente nivel →</button>
+            <div class="lasagna-reward" id="lasagna-reward" hidden>
+              <p class="lasagna-message">¡Te ganaste tu lasaña! Porque un reto así se merece un buen premio. 🍝</p>
+              <button class="lasagna-bite" id="lasagna-bite" type="button" aria-label="Comer un bocado de lasaña" aria-describedby="lasagna-status">
+                <span class="lasagna-stage">
+                  <svg class="lasagna-art" viewBox="0 0 280 180" role="img" aria-label="Porción de lasaña en un plato">
+                    <title>Lasaña de premio</title>
+                    <defs>
+                      <clipPath id="lasagna-mask"><rect id="lasagna-clip" x="37" y="28" width="206" height="112" /></clipPath>
+                      <linearGradient id="lasagna-pasta" x1="0" y1="0" x2="0" y2="1">
+                        <stop offset="0" stop-color="#ffe58c" />
+                        <stop offset="1" stop-color="#e9a943" />
+                      </linearGradient>
+                      <linearGradient id="lasagna-sauce" x1="0" y1="0" x2="1" y2="0">
+                        <stop offset="0" stop-color="#a93f30" />
+                        <stop offset="1" stop-color="#d76b3c" />
+                      </linearGradient>
+                    </defs>
+                    <ellipse cx="140" cy="143" rx="103" ry="19" fill="#5b4b61" opacity=".18" />
+                    <ellipse cx="140" cy="132" rx="101" ry="24" fill="#f8f0d8" stroke="#624879" stroke-width="4" />
+                    <ellipse cx="140" cy="130" rx="82" ry="15" fill="#e6d9bb" stroke="#b6a987" stroke-width="2" />
+                    <g clip-path="url(#lasagna-mask)">
+                      <path d="M54 68 L187 43 Q201 41 211 54 L231 78 L89 105 L54 94Z" fill="#a94432" stroke="#65352b" stroke-linejoin="round" stroke-width="4" />
+                      <path d="M89 105 L231 78 L231 107 L91 133 L65 121 L54 94Z" fill="#b84932" stroke="#65352b" stroke-linejoin="round" stroke-width="4" />
+                      <path d="M63 70 L187 47 Q200 45 207 55 L219 72 L89 96 L61 88Z" fill="url(#lasagna-pasta)" stroke="#74432b" stroke-linejoin="round" stroke-width="3" />
+                      <path d="M89 103 L229 77 L229 84 L90 111Z" fill="#f3dfb0" stroke="#74432b" stroke-linejoin="round" stroke-width="2" />
+                      <path d="M90 112 L230 86 L230 94 L91 120Z" fill="#e5a346" stroke="#74432b" stroke-linejoin="round" stroke-width="2" />
+                      <path d="M91 121 L230 96 L230 103 L92 130Z" fill="#f3dfb0" stroke="#74432b" stroke-linejoin="round" stroke-width="2" />
+                      <path d="M66 73 Q79 67 91 70 T116 66 T141 61 T168 57 T195 51" fill="none" stroke="#b84932" stroke-linecap="round" stroke-width="5" />
+                      <path d="M82 62 C87 56 97 57 99 63 C102 70 92 73 86 70Z M126 56 C132 50 141 53 142 59 C143 65 134 68 129 64Z M171 50 C177 44 186 46 187 52 C188 58 178 61 173 57Z" fill="#fff0b5" stroke="#b84932" stroke-width="2" />
+                      <circle cx="111" cy="75" r="2.5" fill="#4d783f" />
+                      <circle cx="157" cy="65" r="2.5" fill="#4d783f" />
+                      <circle cx="197" cy="61" r="2.5" fill="#4d783f" />
+                    </g>
+                    <path d="M50 131 Q140 151 230 131" fill="none" stroke="#fffdf4" stroke-linecap="round" stroke-width="3" />
+                  </svg>
+                  <span class="lasagna-bite-pop" id="lasagna-bite-pop" aria-hidden="true" hidden>¡Ñam ñam!</span>
+                </span>
+              </button>
+              <p class="lasagna-status" id="lasagna-status" role="status" aria-live="polite">Toca la lasaña para darle un bocado. Quedan 5.</p>
+              <p class="lasagna-finished" id="lasagna-finished" role="status" aria-live="polite" hidden>Ups, aquí no está la llave 😂</p>
+            </div>
+            <button class="replay-action" id="play-again" type="button">Volver a jugar</button>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section class="race-section" id="birthday-race" aria-labelledby="race-heading" hidden>
+      <h2 class="section-title" id="race-heading">🀄 Mahjong de la sorpresa</h2>
+      <p class="mahjong-intro">Encuentra parejas iguales en tres tableros: pequeño, mediano y grande. Solo puedes elegir fichas de la capa superior activa; al despejarla por completo, desbloqueas la siguiente capa. ¡Las imágenes iguales siempre tienen pareja!</p>
+      <div class="mahjong-hud" aria-live="polite">
+        <span class="mahjong-pill" id="mahjong-level">Nivel 1 de 3</span>
+        <span class="mahjong-pill" id="mahjong-pairs">Parejas: 0/0</span>
+        <span class="mahjong-pill" id="mahjong-moves">Movimientos: 0</span>
+      </div>
+      <progress class="mahjong-progress" id="mahjong-progress" max="100" value="0" aria-label="Progreso del nivel"></progress>
+      <div class="mahjong-board-shell">
+        <div class="mahjong-board-wrap">
+          <div class="mahjong-board" id="mahjong-board" role="group" aria-label="Tablero de Mahjong. Selecciona dos fichas iguales disponibles."></div>
+          <div class="mahjong-overlay" id="mahjong-level-overlay" hidden>
+            <div class="mahjong-overlay-card">
+              <h3 id="mahjong-overlay-title">¡Nivel completado!</h3>
+              <p id="mahjong-overlay-copy">¡Muy bien! El siguiente tablero te espera.</p>
+              <button class="mahjong-next" id="mahjong-next" type="button">Siguiente nivel →</button>
+            </div>
+          </div>
+        </div>
+      </div>
+      <p class="mahjong-message" id="mahjong-message" role="status" aria-live="polite">Toca o haz clic en una ficha libre para empezar.</p>
+      <div class="mahjong-actions">
+        <button id="mahjong-hint" type="button">💡 Mostrar pareja</button>
+        <button id="mahjong-shuffle" type="button">🔀 Nuevo tablero (reinicia nivel)</button>
+        <button id="mahjong-restart" type="button">↻ Reiniciar nivel</button>
+        <button id="mahjong-skip-level" type="button" aria-label="Pasar este nivel temporalmente para probar los siguientes">⏭ Pasar nivel (temporal)</button>
+      </div>
+      <details class="mahjong-credits">
+        <summary>Créditos de las fotografías y licencias</summary>
+        <ul id="mahjong-photo-credits"></ul>
+      </details>
+    </section>
+    <section class="race-surprise" id="race-surprise" hidden aria-labelledby="race-surprise-title">
+      <h2 id="race-surprise-title">🎁 ¡El panda y el osito te tienen una sorpresa!</h2>
+      <p class="race-surprise-copy">Toca el regalo que sostienen para encontrar la llave de las tres cartas.</p>
+      <div class="race-gift-scene">
+        <div class="race-gift-stage" id="race-gift-stage">
+          <div class="race-gift-art">
+            <img src="./mahjong-assets/reward-bears-reference.jpg" alt="El panda blanco y redondito, con orejas negras y mejillas rosadas, y el osito marrón sostienen un regalo rosa con lunares y un gran lazo amarillo.">
+          </div>
+          <div aria-hidden="true">
+            <div class="race-gift-sparkles" id="race-gift-sparkles" aria-hidden="true"></div>
+          </div>
+          <button class="race-gift-press" id="race-gift-press" type="button" aria-label="Abrir el regalo que sostienen el panda y el osito"></button>
+          <button class="race-gift-key" id="race-gift-key" type="button" aria-label="Usar la llave dorada para desbloquear las tres cartas" hidden>
+            <svg viewBox="0 0 100 100" aria-hidden="true">
+              <circle cx="28" cy="35" r="19" fill="none" stroke="currentColor" stroke-width="9"/>
+              <circle cx="28" cy="35" r="7" fill="none" stroke="currentColor" stroke-width="4"/>
+              <path d="M44 48 82 86M64 68l11-11m-1 30 11-11" fill="none" stroke="currentColor" stroke-width="9" stroke-linecap="round" stroke-linejoin="round"/>
+              <path d="M22 18c-7-8 7-13 12-4" fill="none" stroke="#fff3bf" stroke-width="3" stroke-linecap="round"/>
+            </svg>
+          </button>
+        </div>
+      </div>
+      <p class="race-gift-status" id="race-gift-status" role="status" aria-live="polite">El regalo está cerrado. Tócalo para encontrar la llave de las cartas.</p>
+      <p class="race-gift-message" id="race-gift-message" hidden>¡Encontraste la llave! Ya puedes abrir las tres cartas.</p>
+    </section>
+
+    <section class="letters-section" id="birthday-letters" aria-labelledby="letters-heading" hidden>
+      <h2 class="section-title" id="letters-heading">¿Qué hay aquí?</h2>
+      <p class="letters-intro">Toca una carta para abrirla.</p>
+      <div class="letter-grid">
+        <article class="letter-item" id="letter-one">
+          <button class="letter-cover" id="letter-one-toggle" type="button" aria-expanded="false" aria-controls="letter-one-note" aria-label="Abrir la carta">
+            <span class="letter-ornament" aria-hidden="true">♥</span>
+            <span class="letter-label">Alison</span>
+            <span class="letter-envelope" aria-hidden="true"><span class="letter-seal">♥</span></span>
+            <span class="letter-cover-hint">Seleccionar para abrir</span>
+          </button>
+          <div class="letter-note" id="letter-one-note" aria-hidden="true">
+            <div class="letter-note-inner">
+              <div class="letter-paper" aria-label="Carta de cumpleaños para Darlyn">
+                <img class="letter-image" src="./birthday-letter.jpg" alt="Carta de cumpleaños para Darlyn, decorada con una foto, estrellas, corazones y música." width="1024" height="1536">
+              </div>
+            </div>
+          </div>
+          <p class="letter-status" id="letter-one-status" role="status" aria-live="polite">Carta cerrada</p>
+        </article>
+        <article class="letter-item" id="letter-two">
+          <button class="letter-cover" id="letter-two-toggle" type="button" aria-expanded="false" aria-controls="letter-two-note" aria-label="Abrir la carta">
+            <span class="letter-ornament" aria-hidden="true">♥</span>
+            <span class="letter-label">Don Dramas</span>
+            <span class="letter-envelope" aria-hidden="true"><span class="letter-seal">♥</span></span>
+            <span class="letter-cover-hint">Seleccionar para abrir</span>
+          </button>
+          <div class="letter-note" id="letter-two-note" aria-hidden="true">
+            <div class="letter-note-inner">
+              <div class="letter-paper" aria-label="Carta de cumpleaños para Pato">
+                <img class="letter-image" src="./don-dramas-letter.jpg" alt="Carta para Pato, con un pato de graduación, fotos de patos y un mensaje de cariño." width="899" height="1599">
+              </div>
+            </div>
+          </div>
+          <p class="letter-status" id="letter-two-status" role="status" aria-live="polite">Carta cerrada</p>
+        </article>
+        <article class="letter-item" id="letter-three">
+          <button class="letter-cover" id="letter-three-toggle" type="button" aria-expanded="false" aria-controls="letter-three-note" aria-label="Abrir la carta">
+            <span class="letter-ornament" aria-hidden="true">♥</span>
+            <span class="letter-label">Conejo</span>
+            <span class="letter-envelope" aria-hidden="true"><span class="letter-seal">♥</span></span>
+            <span class="letter-cover-hint">Seleccionar para abrir</span>
+          </button>
+          <div class="letter-note" id="letter-three-note" aria-hidden="true">
+            <div class="letter-note-inner">
+              <div class="letter-paper" aria-label="Carta para Conejo">
+                <img class="letter-image" src="./conejo-carta.png" alt="Carta de cumpleaños para Conejo." width="4959" height="7016">
+              </div>
+            </div>
+          </div>
+          <p class="letter-status" id="letter-three-status" role="status" aria-live="polite">Carta cerrada</p>
+        </article>
+      </div>
+    </section>
+
+  </main>
+  <script>
+    (() => {
+      const cakeTrigger = document.getElementById("cake-trigger");
+      const cakeFireworks = document.getElementById("cake-fireworks");
+      const cakeHint = document.getElementById("cake-hint");
+      const fireworkColors = ["#ffd82f", "#f26475", "#5b9bd5", "#69a877", "#a779c5", "#fff"];
+
+      cakeTrigger.addEventListener("click", () => {
+        cakeFireworks.replaceChildren();
+        const { width, height } = cakeTrigger.getBoundingClientRect();
+        const bursts = [
+          { x: width * 0.25, y: height * 0.34 },
+          { x: width * 0.5, y: height * 0.16 },
+          { x: width * 0.75, y: height * 0.34 },
+        ];
+
+        bursts.forEach(({ x, y }, burstIndex) => {
+          for (let particleIndex = 0; particleIndex < 16; particleIndex += 1) {
+            const angle = (Math.PI * 2 * particleIndex) / 16;
+            const distance = width * (0.09 + Math.random() * 0.09);
+            const particle = document.createElement("span");
+            particle.style.left = `${x}px`;
+            particle.style.top = `${y}px`;
+            particle.style.setProperty("--sparkle-x", `${Math.cos(angle) * distance}px`);
+            particle.style.setProperty("--sparkle-y", `${Math.sin(angle) * distance}px`);
+            particle.style.setProperty("--sparkle-color", fireworkColors[(particleIndex + burstIndex) % fireworkColors.length]);
+            particle.addEventListener("animationend", () => particle.remove(), { once: true });
+            cakeFireworks.append(particle);
+          }
+        });
+
+        cakeHint.textContent = "¡Feliz cumpleaños! 🎆";
+      });
+
+      const musicWidget = document.getElementById("music-widget");
+      const musicWidgetToggle = document.getElementById("music-widget-toggle");
+      const musicSelect = document.getElementById("music-select");
+      const musicPlayerElement = document.getElementById("music-player");
+      const musicPlayerShell = document.getElementById("music-player-shell");
+      const musicPlayerStatus = document.getElementById("music-player-status");
+      const musicTrackIds = Array.from(musicSelect.options, (option) => option.value).filter(Boolean);
+      let musicRequestedTrackId = null;
+      let musicLoadedTrackId = null;
+      let musicController = null;
+      let musicControllerReady = false;
+      let spotifyIframeApi = null;
+
+      function showSelectedMoratTrack() {
+        const index = musicTrackIds.indexOf(musicRequestedTrackId);
+        if (index === -1) return;
+        musicSelect.value = musicRequestedTrackId;
+        musicPlayerShell.hidden = false;
+        const songName = musicSelect.selectedOptions[0].textContent;
+        musicPlayerStatus.textContent = `Elegiste ${songName}. Toca ▶ en Spotify para escucharla.`;
+        if (musicController && musicControllerReady && musicLoadedTrackId !== musicRequestedTrackId) {
+          musicController.loadEntity(`spotify:track:${musicRequestedTrackId}`, false);
+          musicLoadedTrackId = musicRequestedTrackId;
+        }
+        if (spotifyIframeApi && !musicController) {
+          createMoratController();
+        }
+      }
+
+      function createMoratController() {
+        if (!spotifyIframeApi || !musicRequestedTrackId || musicController) return;
+        const initialTrackId = musicRequestedTrackId;
+        musicLoadedTrackId = initialTrackId;
+        spotifyIframeApi.createController(
+          musicPlayerElement,
+          {
+            uri: `spotify:track:${initialTrackId}`,
+            width: Math.max(240, Math.round(musicPlayerShell.getBoundingClientRect().width)),
+            height: 152,
+          },
+          (controller) => {
+            musicController = controller;
+            controller.addListener("ready", () => {
+              musicControllerReady = true;
+              if (musicRequestedTrackId !== musicLoadedTrackId) {
+                controller.loadEntity(`spotify:track:${musicRequestedTrackId}`, false);
+                musicLoadedTrackId = musicRequestedTrackId;
+              }
+              showSelectedMoratTrack();
+            });
+            controller.addListener("playback_started", (event) => {
+              const activeTrackId = event.data.playingURI.split(":").pop();
+              if (activeTrackId !== musicRequestedTrackId) return;
+              const songName = musicSelect.selectedOptions[0].textContent;
+              musicPlayerStatus.textContent = `Reproduciendo: ${songName}`;
+            });
+          },
+        );
+      }
+
+      musicSelect.addEventListener("change", () => {
+        if (!musicTrackIds.includes(musicSelect.value)) return;
+        musicRequestedTrackId = musicSelect.value;
+        showSelectedMoratTrack();
+      });
+
+      window.onSpotifyIframeApiReady = (SpotifyIframeApi) => {
+        spotifyIframeApi = SpotifyIframeApi;
+        createMoratController();
+      };
+
+      const spotifyIframeApiScript = document.createElement("script");
+      spotifyIframeApiScript.src = "https://open.spotify.com/embed/iframe-api/v1";
+      spotifyIframeApiScript.async = true;
+      spotifyIframeApiScript.addEventListener("error", () => {
+        musicPlayerStatus.textContent = "No se pudo cargar Spotify. Revisa tu conexión e inténtalo de nuevo.";
+      });
+      document.body.append(spotifyIframeApiScript);
+
+      musicWidgetToggle.addEventListener("click", () => {
+        const isExpanded = musicWidgetToggle.getAttribute("aria-expanded") === "true";
+        musicWidget.classList.toggle("is-collapsed", isExpanded);
+        musicWidgetToggle.setAttribute("aria-expanded", String(!isExpanded));
+        musicWidgetToggle.setAttribute("aria-label", isExpanded ? "Expandir reproductor" : "Minimizar reproductor");
+        musicWidgetToggle.textContent = isExpanded ? "+" : "−";
+      });
+
+      const themedSymbols = [
+        { id: "panda", label: "Panda", image: "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSR7LDuBp1Yk4XjG2e5OKueWT6vEnElH6PylL_A9SyF1Q&s=10" },
+        { id: "duck", label: "Pato", image: "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRvqdY55sXyIYTaqlSTZGt7ERxM7G7fU25aduKvodEYxw&s=10" },
+        { id: "star", label: "Estrella", image: "https://i.etsystatic.com/33668286/r/il/85af6a/5716766871/il_570xN.5716766871_mxzk.jpg" },
+        { id: "cake", label: "Pastel", image: "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRKvTF-bV3VZWLwOxSyWPgVaRPde5VeskmTe7pe3rqb4A&s=10" },
+      ];
+      const sixSymbolSet = [
+        ...themedSymbols,
+        { id: "surprise-one", label: "Morat", image: "./morat-level2.jpg" },
+        { id: "surprise-two", label: "Besos Kitty", image: "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTeyrVyGKAsQycaidHOFddtbyZ_S7hX9uLhQKUPqJ1--w&s=10" },
+      ];
+      const themedSolution = [
+        ["panda", "duck", "star", "cake"],
+        ["star", "cake", "panda", "duck"],
+        ["duck", "panda", "cake", "star"],
+        ["cake", "star", "duck", "panda"],
+      ];
+      function shuffle(items) {
+        const shuffled = [...items];
+        for (let index = shuffled.length - 1; index > 0; index -= 1) {
+          const swapIndex = Math.floor(Math.random() * (index + 1));
+          [shuffled[index], shuffled[swapIndex]] = [shuffled[swapIndex], shuffled[index]];
+        }
+        return shuffled;
+      }
+      function createImagePatternLevel(size, levelSymbols, boxRows, boxColumns) {
+        const cycle = shuffle(levelSymbols.map((symbol) => symbol.id));
+        const shuffleGroups = (groupSize) => {
+          const groupCount = size / groupSize;
+          return shuffle(Array.from({ length: groupCount }, (_, group) => group))
+            .flatMap((group) => shuffle(Array.from({ length: groupSize }, (_, offset) => group * groupSize + offset)));
+        };
+        const rowOrder = shuffleGroups(boxRows);
+        const columnOrder = size === 6 && boxRows === 2 && boxColumns === 2
+          ? shuffle([[0, 2], [1, 4], [3, 5]]).flatMap((group) => shuffle(group))
+          : shuffleGroups(boxColumns);
+        const solution = Array.from({ length: size }, (_, row) => Array.from({ length: size }, (_, column) => {
+          const baseRow = rowOrder[row];
+          const baseColumn = columnOrder[column];
+          const symbolIndex = size === 6 && boxRows === 2 && boxColumns === 2
+            ? (baseRow + baseColumn) % cycle.length
+            : (baseRow * boxColumns + Math.floor(baseRow / boxRows) + baseColumn) % cycle.length;
+          return cycle[symbolIndex];
+        }));
+
+        const desiredRevealed = Math.round(size * size * 0.5);
+        const targetPerRow = desiredRevealed / size;
+        const targetPerSymbol = desiredRevealed / cycle.length;
+        let bestPuzzle = Array.from({ length: size }, () => Array(size).fill(""));
+        let bestScore = Infinity;
+
+        for (let row = 0; row < size; row += 1) {
+          for (let column = 0; column < size; column += 1) {
+            if ((columnOrder[column] - rowOrder[row] + size) % size < targetPerRow) {
+              bestPuzzle[row][column] = solution[row][column];
+            }
+          }
+        }
+
+        for (let attempt = 0; attempt < 40; attempt += 1) {
+          const puzzle = Array.from({ length: size }, () => Array(size).fill(""));
+          const rowCounts = Array(size).fill(0);
+          const columnCounts = Array(size).fill(0);
+          const symbolCounts = Object.fromEntries(cycle.map((symbol) => [symbol, 0]));
+          let complete = true;
+
+          for (let clue = 0; clue < desiredRevealed; clue += 1) {
+            let bestCell;
+            let bestCellScore = Infinity;
+
+            for (let row = 0; row < size; row += 1) {
+              for (let column = 0; column < size; column += 1) {
+                if (puzzle[row][column] || rowCounts[row] >= targetPerRow || columnCounts[column] >= targetPerRow) continue;
+                const symbol = solution[row][column];
+                let adjacentClues = 0;
+                for (let neighborRow = Math.max(0, row - 1); neighborRow <= Math.min(size - 1, row + 1); neighborRow += 1) {
+                  for (let neighborColumn = Math.max(0, column - 1); neighborColumn <= Math.min(size - 1, column + 1); neighborColumn += 1) {
+                    if (puzzle[neighborRow][neighborColumn]) adjacentClues += 1;
+                  }
+                }
+
+                const symbolDelta = (symbolCounts[symbol] + 1 - targetPerSymbol) ** 2 - (symbolCounts[symbol] - targetPerSymbol) ** 2;
+                const score = symbolDelta * 5 + adjacentClues * 2 + Math.random() * 0.2;
+
+                if (score < bestCellScore) {
+                  bestCellScore = score;
+                  bestCell = { row, column, symbol };
+                }
+              }
+            }
+
+            if (!bestCell) {
+              complete = false;
+              break;
+            }
+            const { row, column, symbol } = bestCell;
+            puzzle[row][column] = symbol;
+            rowCounts[row] += 1;
+            columnCounts[column] += 1;
+            symbolCounts[symbol] += 1;
+          }
+
+          if (!complete) continue;
+
+          let adjacentPairs = 0;
+          for (let row = 0; row < size; row += 1) {
+            for (let column = 0; column < size; column += 1) {
+              if (!puzzle[row][column]) continue;
+              for (let neighborRow = Math.max(0, row - 1); neighborRow <= Math.min(size - 1, row + 1); neighborRow += 1) {
+                for (let neighborColumn = Math.max(0, column - 1); neighborColumn <= Math.min(size - 1, column + 1); neighborColumn += 1) {
+                  if ((neighborRow > row || (neighborRow === row && neighborColumn > column)) && puzzle[neighborRow][neighborColumn]) {
+                    adjacentPairs += 1;
+                  }
+                }
+              }
+            }
+          }
+
+          const symbolVariance = Object.values(symbolCounts).reduce((total, count) => total + (count - targetPerSymbol) ** 2, 0);
+          const score = symbolVariance * 5 + adjacentPairs * 0.75;
+          if (score < bestScore) {
+            bestScore = score;
+            bestPuzzle = puzzle;
+          }
+        }
+
+        return { size, boxRows, boxColumns, puzzle: bestPuzzle, solution, symbols: levelSymbols };
+      }
+      const levels = [
+        {
+          size: 4,
+          boxRows: 2,
+          boxColumns: 2,
+          symbols: themedSymbols,
+          puzzle: [
+            ["panda", "", "star", ""],
+            ["", "cake", "", "duck"],
+            ["duck", "", "cake", ""],
+            ["", "star", "", "panda"],
+          ],
+          solution: themedSolution,
+        },
+        createImagePatternLevel(6, sixSymbolSet, 2, 2),
+      ];
+      let levelIndex = 0;
+      let currentLevel = levels[levelIndex];
+      let symbols = currentLevel.symbols;
+      let startingBoard = currentLevel.puzzle;
+      let fixedCells = new Set();
+      let values = [];
+      let results = [];
+      let selectedCell = null;
+      let gameWon = false;
+      const board = document.getElementById("sudoku-board");
+      const picker = document.getElementById("symbol-picker");
+      const pickerPrompt = document.getElementById("picker-prompt");
+      const symbolOptions = document.getElementById("symbol-options");
+      const feedback = document.getElementById("sudoku-feedback");
+      const checkButton = document.getElementById("check-sudoku");
+      const hintButton = document.getElementById("hint-sudoku");
+      const winPanel = document.getElementById("win-panel");
+      const lasagnaReward = document.getElementById("lasagna-reward");
+      const lasagnaButton = document.getElementById("lasagna-bite");
+      const lasagnaClip = document.getElementById("lasagna-clip");
+      const lasagnaStatus = document.getElementById("lasagna-status");
+      const lasagnaFinished = document.getElementById("lasagna-finished");
+      const bitePop = document.getElementById("lasagna-bite-pop");
+      let bitesRemaining = 5;
+      let biteAnimationTimer;
+
+      function loadLevel(index) {
+        levelIndex = index;
+        currentLevel = levels[levelIndex];
+        const { size, boxRows, boxColumns } = currentLevel;
+        symbols = currentLevel.symbols;
+        startingBoard = currentLevel.puzzle;
+        fixedCells = new Set();
+        startingBoard.forEach((row, rowIndex) => row.forEach((value, columnIndex) => {
+          if (value) fixedCells.add(rowIndex * size + columnIndex);
+        }));
+        values = startingBoard.flat();
+        results = Array(size * size).fill(null);
+        selectedCell = null;
+        gameWon = false;
+        picker.hidden = true;
+        winPanel.hidden = true;
+        lasagnaReward.hidden = true;
+        resetLasagnaReward();
+        checkButton.hidden = false;
+        hintButton.hidden = false;
+        feedback.textContent = "";
+        document.getElementById("sudoku-level").textContent = `Nivel ${levelIndex + 1} de ${levels.length} · ${size}×${size}`;
+        document.getElementById("sudoku-instructions").textContent = size === 4
+          ? "Completa filas, columnas y cuadros 2×2 sin repetir símbolos."
+          : "Completa filas, columnas y bloques 2×2 sin repetir ninguna de las seis imágenes.";
+        board.dataset.size = String(size);
+        board.setAttribute("aria-label", `Tablero de Sudoku de ${size} por ${size}`);
+        board.style.setProperty("--sudoku-size", String(size));
+        board.style.gridTemplateColumns = `repeat(${size}, minmax(0, 1fr))`;
+        board.style.gridTemplateRows = `repeat(${size}, minmax(0, 1fr))`;
+        symbolOptions.replaceChildren();
+        symbolOptions.style.gridTemplateColumns = "repeat(2, minmax(0, 1fr))";
+        symbols.forEach((symbol) => {
+          const option = document.createElement("button");
+          const image = document.createElement("img");
+          const label = document.createElement("span");
+          option.type = "button";
+          option.className = "symbol-option";
+          option.dataset.symbol = symbol.id;
+          option.setAttribute("aria-label", `Elegir ${symbol.label}`);
+          image.className = "symbol-option-image";
+          image.src = symbol.image;
+          image.alt = "";
+          image.loading = "lazy";
+          label.textContent = symbol.label;
+          option.append(image, label);
+          symbolOptions.append(option);
+        });
+        renderBoard();
+      }
+
+      function resetLasagnaReward() {
+        bitesRemaining = 5;
+        lasagnaClip.setAttribute("width", "206");
+        lasagnaButton.disabled = false;
+        lasagnaButton.setAttribute("aria-label", "Comer un bocado de lasaña");
+        lasagnaStatus.hidden = false;
+        lasagnaStatus.textContent = "Toca la lasaña para darle un bocado. Quedan 5.";
+        lasagnaFinished.hidden = true;
+        bitePop.hidden = true;
+        bitePop.classList.remove("is-bouncing");
+      }
+
+      function playBiteAnimation() {
+        bitePop.hidden = false;
+        bitePop.classList.remove("is-bouncing");
+        void bitePop.offsetWidth;
+        bitePop.classList.add("is-bouncing");
+        window.clearTimeout(biteAnimationTimer);
+        biteAnimationTimer = window.setTimeout(() => {
+          bitePop.classList.remove("is-bouncing");
+          bitePop.hidden = true;
+        }, 820);
+      }
+
+      function renderBoard() {
+        board.replaceChildren();
+        const { size, boxRows, boxColumns } = currentLevel;
+        values.forEach((value, index) => {
+          const row = Math.floor(index / size);
+          const column = index % size;
+          const cell = document.createElement("button");
+          const symbol = symbols.find((item) => item.id === value);
+          const isIncorrect = results[index] === "incorrect";
+          cell.type = "button";
+          cell.className = "sudoku-cell";
+          cell.dataset.index = String(index);
+          cell.setAttribute("aria-label", `Fila ${row + 1}, columna ${column + 1}: ${symbol ? symbol.label : "vacía"}${isIncorrect ? ", respuesta incorrecta" : ""}`);
+          if (isIncorrect) cell.setAttribute("aria-invalid", "true");
+          if (symbol) {
+            const image = document.createElement("img");
+            image.className = "sudoku-sticker";
+            image.src = symbol.image;
+            image.alt = symbol.label;
+            image.loading = "lazy";
+            cell.append(image);
+          }
+          if (fixedCells.has(index)) {
+            cell.classList.add("is-given");
+            cell.disabled = true;
+          } else {
+            if (index === selectedCell) cell.classList.add("is-selected");
+            if (results[index] === "correct") cell.classList.add("is-correct");
+            if (results[index] === "incorrect") cell.classList.add("is-incorrect");
+            if (gameWon) cell.disabled = true;
+          }
+          if (boxColumns && (column + 1) % boxColumns === 0 && column < size - 1) cell.classList.add("box-right");
+          if (boxRows && (row + 1) % boxRows === 0 && row < size - 1) cell.classList.add("box-bottom");
+          if (column === size - 1) cell.classList.add("last-column");
+          if (row === size - 1) cell.classList.add("last-row");
+          board.append(cell);
+        });
+      }
+
+      board.addEventListener("click", (event) => {
+        const cell = event.target.closest(".sudoku-cell");
+        if (!cell || cell.disabled || gameWon) return;
+        selectedCell = Number(cell.dataset.index);
+        const row = Math.floor(selectedCell / currentLevel.size) + 1;
+        const column = (selectedCell % currentLevel.size) + 1;
+        pickerPrompt.textContent = `Fila ${row}, columna ${column}: elige un símbolo`;
+        picker.hidden = false;
+        renderBoard();
+      });
+
+      document.getElementById("symbol-options").addEventListener("click", (event) => {
+        const option = event.target.closest("[data-symbol]");
+        if (!option || selectedCell === null || gameWon) return;
+        values[selectedCell] = option.dataset.symbol;
+        results[selectedCell] = null;
+        selectedCell = null;
+        picker.hidden = true;
+        feedback.textContent = "";
+        renderBoard();
+      });
+
+      checkButton.addEventListener("click", () => {
+        let emptyCount = 0;
+        let incorrectCount = 0;
+        results = Array(currentLevel.size * currentLevel.size).fill(null);
+        values.forEach((value, index) => {
+          if (fixedCells.has(index)) return;
+          if (!value) {
+            emptyCount += 1;
+          } else if (value === currentLevel.solution[Math.floor(index / currentLevel.size)][index % currentLevel.size]) {
+            results[index] = "correct";
+          } else {
+            results[index] = "incorrect";
+            incorrectCount += 1;
+          }
+        });
+        renderBoard();
+
+        if (emptyCount > 0) {
+          feedback.textContent = incorrectCount > 0
+            ? `Hay ${incorrectCount} casillas incorrectas y ${emptyCount} vacías.`
+            : `¡Vas bien! Te faltan ${emptyCount} casillas.`;
+          return;
+        }
+        if (incorrectCount > 0) {
+          feedback.textContent = `Hay ${incorrectCount} casillas incorrectas. Prueba otra vez.`;
+          return;
+        }
+
+        gameWon = true;
+        selectedCell = null;
+        picker.hidden = true;
+        checkButton.hidden = true;
+        hintButton.hidden = true;
+        feedback.textContent = "¡Todas las respuestas son correctas!";
+        const winTitle = document.getElementById("sudoku-win-title");
+        const winCopy = document.getElementById("sudoku-win-copy");
+        const nextLevelButton = document.getElementById("next-sudoku-level");
+        const hasNextLevel = levelIndex < levels.length - 1;
+        winTitle.textContent = hasNextLevel ? "¡Nivel superado! 🎉" : "¡Reto completado! 🎉";
+        winCopy.textContent = hasNextLevel
+          ? `Completaste el tablero ${currentLevel.size}×${currentLevel.size}. ¡El siguiente será más grande!`
+          : "Completaste los dos tableros del reto del Panda y el Pato.";
+        winPanel.hidden = false;
+        nextLevelButton.hidden = !hasNextLevel;
+        if (!hasNextLevel) {
+          resetLasagnaReward();
+          lasagnaReward.hidden = false;
+        }
+        renderBoard();
+      });
+
+      hintButton.addEventListener("click", () => {
+        const hintIndex = selectedCell !== null && !fixedCells.has(selectedCell) && values[selectedCell] !== currentLevel.solution[Math.floor(selectedCell / currentLevel.size)][selectedCell % currentLevel.size]
+          ? selectedCell
+          : results.findIndex((result) => result === "incorrect");
+        const targetIndex = hintIndex >= 0
+          ? hintIndex
+          : values.findIndex((value, index) => !fixedCells.has(index) && !value);
+
+        if (targetIndex < 0) {
+          checkButton.click();
+          return;
+        }
+
+        values[targetIndex] = currentLevel.solution[Math.floor(targetIndex / currentLevel.size)][targetIndex % currentLevel.size];
+        results[targetIndex] = "correct";
+        selectedCell = null;
+        picker.hidden = true;
+        renderBoard();
+        checkButton.click();
+      });
+
+      lasagnaButton.addEventListener("click", () => {
+        if (bitesRemaining === 0) return;
+        bitesRemaining -= 1;
+        lasagnaClip.setAttribute("width", String(206 * bitesRemaining / 5));
+        playBiteAnimation();
+
+        if (bitesRemaining === 0) {
+          lasagnaButton.disabled = true;
+          lasagnaButton.setAttribute("aria-label", "La lasaña se terminó");
+          lasagnaStatus.hidden = true;
+          lasagnaFinished.hidden = false;
+          return;
+        }
+
+        lasagnaButton.setAttribute("aria-label", `Comer otro bocado de lasaña. Quedan ${bitesRemaining}`);
+        lasagnaStatus.textContent = `¡Ñam ñam! Quedan ${bitesRemaining} bocados.`;
+      });
+
+      document.getElementById("play-again").addEventListener("click", () => {
+        loadLevel(0);
+      });
+
+      document.getElementById("next-sudoku-level").addEventListener("click", () => {
+        if (levelIndex >= levels.length - 1) return;
+        loadLevel(levelIndex + 1);
+        board.scrollIntoView({ behavior: "smooth", block: "center" });
+      });
+
+      document.getElementById("launch-sudoku").addEventListener("click", () => {
+        document.getElementById("panda-duck-game").scrollIntoView({ behavior: "smooth", block: "start" });
+      });
+
+      if (false) {
+      const raceSection = document.getElementById("birthday-race");
+      const raceVehiclePicker = document.getElementById("race-vehicle-picker");
+      const raceLive = document.getElementById("race-live");
+      const raceAnswerForm = document.getElementById("race-answer-form");
+      const raceAnswer = document.getElementById("race-answer");
+      const raceAnswerFeedback = document.getElementById("race-answer-feedback");
+      const raceCodeForm = document.getElementById("race-code-form");
+      const raceCode = document.getElementById("race-code");
+      const raceCodePrompt = document.getElementById("race-code-prompt");
+      const raceCodeFeedback = document.getElementById("race-code-feedback");
+      const raceFinish = document.getElementById("race-finish");
+      const raceProgress = document.getElementById("race-progress");
+      const raceProgressLabel = document.getElementById("race-progress-label");
+      const raceCarName = document.getElementById("race-car-name");
+      const raceCommentary = document.getElementById("race-commentary");
+      const raceMechanicLine = document.getElementById("race-mechanic-line");
+      const raceDuckLine = document.getElementById("race-duck-line");
+      const raceChallengeName = document.getElementById("race-challenge-name");
+      const raceQuestion = document.getElementById("race-question");
+      const raceObstacle = document.getElementById("race-obstacle");
+      const jeepCar = document.getElementById("race-jeep-car");
+      const challengerCar = document.getElementById("race-challenger-car");
+      const jeepLane = document.getElementById("race-jeep-lane");
+      const challengerLane = document.getElementById("race-challenger-lane");
+      const raceConfetti = document.getElementById("race-confetti");
+      const raceLead = document.getElementById("race-lead");
+      const ignitionChallenge = {
+        name: "Encendido",
+        prompt: "Para arrancar el motor: 6 + 7 = ?",
+        answer: "13",
+        hint: "Pista del panda: suma 6 + 6 y agrega 1.",
+      };
+      const raceChallenges = [
+        { name: "Conos en la pista", obstacle: "🚧", prompt: "Hay 8 conos y el panda coloca 5 más. ¿Cuántos hay?", answer: "13", hint: "Pista: cuenta 8 y avanza cinco lugares." },
+        { name: "Curva cerrada", obstacle: "↪️", prompt: "El tablero marca 18 y gastas 9. ¿Cuánto queda?", answer: "9", hint: "Pista: 9 + 9 = 18." },
+        { name: "Puente veloz", obstacle: "🌉", prompt: "Cuatro ruedas por coche y tres coches. ¿Cuántas ruedas?", answer: "12", hint: "Pista: suma 4 tres veces." },
+        { name: "Túnel numérico", obstacle: "🚇", prompt: "Completa la secuencia: 3, 6, 9, __", answer: "12", hint: "Pista: cada número aumenta de 3 en 3." },
+      ];
+      const finalRaceChallenge = {
+        name: "Operación de la meta",
+        prompt: "Última operación: 9 + 8 = ?",
+        answer: "17",
+        hint: "Pista del panda: 9 + 9 sería 18. Quita 1.",
+      };
+      let selectedRaceVehicle = null;
+      let racePhase = "choose";
+      let raceChallengeIndex = 0;
+
+      function setRaceComments(mechanic, duck) {
+        raceMechanicLine.textContent = mechanic;
+        raceDuckLine.textContent = duck;
+      }
+
+      function setRaceProgress(value, label) {
+        const boundedProgress = Math.max(0, Math.min(100, value));
+        raceProgress.value = boundedProgress;
+        raceProgressLabel.textContent = `${boundedProgress}% · ${label}`;
+        const playerPosition = 4 + boundedProgress * .55;
+        const rivalPosition = 4 + Math.max(0, boundedProgress - 9) * .55;
+        jeepCar.style.setProperty("--car-position", `${selectedRaceVehicle === "jeep" ? playerPosition : rivalPosition}%`);
+        challengerCar.style.setProperty("--car-position", `${selectedRaceVehicle === "challenger" ? playerPosition : rivalPosition}%`);
+      }
+
+      function setObstacle(icon, label) {
+        raceObstacle.textContent = icon;
+        raceObstacle.setAttribute("aria-label", label);
+        raceObstacle.classList.remove("is-cleared");
+      }
+
+      function showRaceQuestion(question, phase) {
+        racePhase = phase;
+        raceChallengeName.textContent = question.name;
+        raceQuestion.textContent = question.prompt;
+        raceAnswer.value = "";
+        raceAnswerFeedback.textContent = "";
+        raceAnswerForm.hidden = false;
+        raceCodeForm.hidden = true;
+      }
+
+      function startChosenRace(vehicle) {
+        selectedRaceVehicle = vehicle;
+        raceVehiclePicker.hidden = true;
+        raceLive.hidden = false;
+        raceFinish.hidden = true;
+        raceChallengeIndex = 0;
+        const chosenName = vehicle === "jeep" ? "Jeep" : "Dodge Challenger";
+        raceCarName.textContent = `Tú conduces: ${chosenName}`;
+        jeepCar.classList.toggle("is-player", vehicle === "jeep");
+        challengerCar.classList.toggle("is-player", vehicle === "challenger");
+        jeepCar.classList.remove("is-moving");
+        challengerCar.classList.remove("is-moving");
+        jeepLane.classList.remove("is-moving");
+        challengerLane.classList.remove("is-moving");
+        setRaceProgress(0, "SALIDA");
+        setObstacle("🔑", "Llave de encendido");
+        setRaceComments(`Mecánico Panda: ${chosenName} revisado. ¡Motor listo!`, "Comentarista Pato: ¡A ver quién arranca primero, patooo!");
+        showRaceQuestion(ignitionChallenge, "ignition");
+      }
+
+      function beginRace() {
+        racePhase = "race";
+        jeepCar.classList.add("is-moving");
+        challengerCar.classList.add("is-moving");
+        jeepLane.classList.add("is-moving");
+        challengerLane.classList.add("is-moving");
+        setRaceProgress(10, "¡ARRANCAMOS!");
+        raceChallengeIndex = 0;
+        setObstacle(raceChallenges[0].obstacle, "Obstáculo: conos");
+        setRaceComments("Mecánico Panda: ¡Motor encendido y ruedas listas!", "Comentarista Pato: ¡Comienza la carrera, cuac-cuac!");
+        showRaceQuestion(raceChallenges[0], "race");
+      }
+
+      function celebrateRace() {
+        racePhase = "won";
+        setRaceProgress(100, "META");
+        raceCodeForm.hidden = true;
+        raceFinish.hidden = false;
+        raceConfetti.replaceChildren();
+        const confettiColors = ["#f26475", "#ffd82f", "#5b9bd5", "#69a877", "#a779c5"];
+        for (let index = 0; index < 36; index += 1) {
+          const piece = document.createElement("span");
+          piece.style.setProperty("--confetti-x", `${(index * 47) % 100}%`);
+          piece.style.setProperty("--confetti-color", confettiColors[index % confettiColors.length]);
+          piece.style.setProperty("--confetti-delay", `${(index % 9) * 85}ms`);
+          piece.style.setProperty("--confetti-rotation", `${(index * 31) % 180}deg`);
+          raceConfetti.append(piece);
+        }
+        setRaceComments("Mecánico Panda: ¡Trabajo perfecto, campeona!", "Comentarista Pato: ¡Lo lograste bien patoooo! ¡Qué carrerón!");
+      }
+
+      document.getElementById("launch-race").addEventListener("click", () => {
+        raceSection.hidden = false;
+        raceSection.scrollIntoView({ behavior: "smooth", block: "start" });
+      });
+
+      raceVehiclePicker.addEventListener("click", (event) => {
+        const choice = event.target.closest("[data-race-vehicle]");
+        if (!choice) return;
+        startChosenRace(choice.dataset.raceVehicle);
+      });
+
+      raceAnswerForm.addEventListener("submit", (event) => {
+        event.preventDefault();
+        const question = racePhase === "ignition"
+          ? ignitionChallenge
+          : racePhase === "final-math"
+            ? finalRaceChallenge
+            : raceChallenges[raceChallengeIndex];
+        if (raceAnswer.value.trim() !== question.answer) {
+          raceAnswerFeedback.textContent = `${question.hint} Inténtalo otra vez.`;
+          raceDuckLine.textContent = "Comentarista Pato: ¡No te rindas! El coche espera tu respuesta.";
+          raceAnswer.select();
+          return;
+        }
+
+        raceObstacle.classList.add("is-cleared");
+        raceAnswerFeedback.textContent = "¡Correcto! Los coches avanzan.";
+
+        if (racePhase === "ignition") {
+          beginRace();
+          return;
+        }
+
+        if (racePhase === "race") {
+          raceChallengeIndex += 1;
+          setRaceProgress(10 + raceChallengeIndex * 17, "EN CARRERA");
+          if (raceChallengeIndex < raceChallenges.length) {
+            const challenge = raceChallenges[raceChallengeIndex];
+            setObstacle(challenge.obstacle, `Obstáculo: ${challenge.name}`);
+            setRaceComments(`Mecánico Panda: ${challenge.hint}`, `Comentarista Pato: ¡${challenge.name} superado!`);
+            showRaceQuestion(challenge, "race");
+          } else {
+            setRaceProgress(82, "RECTA FINAL");
+            setObstacle("🏁", "Reto final de la meta");
+            setRaceComments("Mecánico Panda: Ya casi llegamos. ¡Último cálculo!", "Comentarista Pato: ¡La meta está a la vista!");
+            showRaceQuestion(finalRaceChallenge, "final-math");
+          }
+          return;
+        }
+
+        if (racePhase === "final-math") {
+          setRaceProgress(91, "DESBLOQUEO DE META");
+          raceAnswerForm.hidden = true;
+          raceCodeForm.hidden = false;
+          raceCodePrompt.textContent = "La respuesta fue 17. El código secreto es PATO17. Escríbelo para cruzar la meta.";
+          raceCodeFeedback.textContent = "";
+          racePhase = "code";
+          raceCode.value = "";
+          setRaceComments("Mecánico Panda: Código listo. ¡Introdúcelo con cuidado!", "Comentarista Pato: ¡Una clave más y ganamos!");
+          raceCode.focus();
+        }
+      });
+
+      raceCodeForm.addEventListener("submit", (event) => {
+        event.preventDefault();
+        if (raceCode.value.trim().toUpperCase().replace(/\s+/g, "") === "PATO17") {
+          celebrateRace();
+        } else {
+          raceCodeFeedback.textContent = "Ese código no abre la meta. Pista del panda: empieza con PATO.";
+          raceCode.select();
+          raceDuckLine.textContent = "Comentarista Pato: ¡Prueba otra vez, la bandera ya se ve!";
+        }
+      });
+
+      document.getElementById("race-restart").addEventListener("click", () => {
+        racePhase = "choose";
+        selectedRaceVehicle = null;
+        raceChallengeIndex = 0;
+        raceVehiclePicker.hidden = false;
+        raceLive.hidden = true;
+        raceFinish.hidden = true;
+        raceAnswerForm.hidden = false;
+        raceCodeForm.hidden = true;
+        raceCode.value = "";
+        raceCodeFeedback.textContent = "";
+        raceAnswerFeedback.textContent = "";
+        jeepCar.classList.remove("is-moving", "is-player");
+        challengerCar.classList.remove("is-moving", "is-player");
+        jeepLane.classList.remove("is-moving");
+        challengerLane.classList.remove("is-moving");
+        setRaceProgress(0, "SALIDA");
+        setRaceComments("Tengo las herramientas listas. ¿Cuál coche revisamos?", "¡En la pista todo puede pasar!");
+      });
+      }
+
+      loadLevel(0);
+    })();
+  </script>
+  <script src="./mahjong-game.js" defer></script>
+</body>
+</html>
